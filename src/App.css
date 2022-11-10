@@ -1,5 +1,5 @@
 body {
-  background-color: #444;
+  background-color: #3C3D34;
 }
 
 /*
@@ -9,11 +9,10 @@ body {
 
 .App-header {
   text-align: center;
-  background-color: #28282a;
+  background-color: #292A24;
   padding: 5px 0px 5px 0px;
   color: white;
   font-size: 20px;
-/*  font-family: serif; */
   font-family: "Arial", "メイリオ";
 }
 
@@ -39,22 +38,33 @@ body {
 h1 {
   display: block;
   position: relative;
-  top: -30px;
-  left: 0px;
-  font-size: 20px;
+  top: -23px;
+  left: -5px;
+  font-size: 16px;
   color: white;
-  background-color: #444;
-  width: 80px;
-  padding-left: 10px;
-  margin-bottom: -25px;
+  background-color: #3C3D34;
+  padding-left: 8px;
+  margin-bottom: -18px;
 /*  margin: 10px 0px 5px 0px; */
   font-weight: normal;
 }
 
+.h1_80 {
+  width: 60px;
+}
+
+.h1_65 {
+  width: 50px;
+}
+
+.margin_plus {
+  margin-bottom: -10px;
+}
+
 h2 {
   display: block;
-  font-size: 16px;
-  margin: 0px 0px 0px 0px;
+  font-size: 14px;
+  margin: 0px 0px 0px -4px;
   font-weight: normal;
 }
 
@@ -63,7 +73,7 @@ h2 {
   width: 85%;
   border: 2px solid #fff;
   margin-top: 20px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   padding: -0px 20px 10px 20px;
   color: white;
   font-size: 12px;
@@ -98,10 +108,10 @@ label {
   color: white;
 }
 
+/*
 input[type="text"]{ 
   border:none;
   outline:none;
-/*  display:inline-block; */
   height:20px;
   width: 140px;
   vertical-align:middle;
@@ -112,47 +122,266 @@ input[type="text"]{
   box-sizing:border-box;
   padding:0 18px; 
 }
-
-
+*/
+/*
 #panel_height {
   margin-left: 10px;
   width: 50px;
 }
-
+*/
 
 .sample label{
   display: block;
 }
 
-/*
-.sample input{
+.ControlLabel {
+  position: relative;
+  top: 0px;
+  left: -5px;
+  width: 170px;
+  color: white;
+  text-align: left;
+  font-size: 12px;
+  margin: 0px 0px -8px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+.ControlText {
+  position: relative;
+  top: -10px;
+  left: 100px;
+  width: 150px;
+  height: 15px;
+  color: white;
+  background-image: linear-gradient(#6a6962, #71706b);
+  font-size: 12px;
+  margin: 0px 0px -8px 0px;
+  padding: 2px 0px 2px 10px;
+  border: 1px solid #3C3D34;
+  border-radius: 4px;
+}
+
+.ControlText:disabled {
+  color: #999;
+  background-image: linear-gradient(#4f4e4b, #52514c);
+}
+
+.ControlHide {
   display: none;
 }
 
-.sample label{
-  display: block;
-  float: left;
+.ControlLabelRadio {
+  position: relative;
+  top: 0px;
+  left: -5px;
+  height: 25px;
+  width: 170px;
+  color: white;
+  text-align: left;
+  font-size: 12px;
+  margin: 0px 0px -15px 0px;
+  padding: 0px 0px 0px 0px;
+}
+  
+  .ControlRadio {
+  /*  background-color: #666; */ 
+    color: #AAAAAA;
+    display: inline;
+    position: relative;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    top: -25px;
+    left: 112px;
+  }
+  
+  .ControlRadio input[type=radio]{
+    position: absolute;
+    visibility: hidden;
+  }
+  
+  .ControlRadio label {
+  /*    background-color: #888; */
+    position: relative;
+    color: #AAAAAA;
+    font-size: 12px;
+    top: 16px;
+    left: -11px;
+    padding: 0px 20px 0px 20px;
+    z-index: 9;
+    cursor: pointer;
+    transition: all 0.1s linear;
+  }
+  
+  .ControlRadio:hover label{
+    color: white;
+  }
+  
+  .ControlRadio .RadioMark {
+    display: inline-block; 
+    position: absolute; 
+    border: 2px solid #AAAAAA;
+    border-radius: 100%;
+    height: 10px;
+    width: 10px;
+    top: 16px;
+    left: -10px;
+    z-index: 5;
+    transition: border .1s linear;
+    -webkit-transition: border .1s linear;
+  }
+  
+  .ControlRadio:hover .RadioMark {
+    border: 2px solid #FFFFFF;
+  }
+  
+  .ControlRadio .RadioMark::before {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    border-radius: 100%;
+    height: 6px;
+    width: 6px;
+    top: 2px;
+    left: 2px;
+    margin: auto;
+    transition: background 0.1s linear;
+    -webkit-transition: background 0.1s linear;
+  }
+  
+  .ControlRadio input[type=radio]:checked ~ .RadioMark {
+    border: 2px solid white;
+  }
+  
+  .ControlRadio input[type=radio]:checked ~ .RadioMark::before{
+    background: white;
+  }
+  
+  .ControlRadio input[type=radio]:checked ~ label{
+    color: white;
+  }
+  
+  .ControlWH {
+    position: relative;
+    top: -10px;
+    left: 100px;
+    width: 150px;
+    height: 15px;
+    color: white;
+    font-size: 12px;
+  }
+  
+  .ControlWH_W {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 50px;
+    height: 15px;
+    color: white;
+    background-image: linear-gradient(#6a6962, #71706b);
+    font-size: 12px;
+    margin: 0px 16px -8px 0px;
+    padding: 2px 0px 2px 10px;
+    border: 1px solid #3C3D34;
+    border-radius: 4px;
+  }
+  
+  .ControlWH_H {
+    position: relative;
+    top: 0px;
+    left: 16px;
+    width: 50px;
+    height: 15px;
+    color: white;
+    background-image: linear-gradient(#6a6962, #71706b);
+    font-size: 12px;
+    margin: 0px 0px -8px 0px;
+    padding: 2px 0px 2px 10px;
+    border: 1px solid #3C3D34;
+    border-radius: 4px;
+  }
+
+  .ControlWH_W:disabled {
+    color: #999;
+    background-image: linear-gradient(#4f4e4b, #52514c);
+  }
+
+  .ControlWH_H:disabled {
+    color: #999;
+    background-image: linear-gradient(#4f4e4b, #52514c);
+  }
+
+.ControlVRadio {
+  color: #AAAAAA;
+/*  display: inline; */
+  position: relative;
+  padding: 0px 0px 0px 0px;
+  margin: 10px 0px 0px 0px;
+  top: -25px;
+  left: 10px;
+}
+    
+.ControlVRadio input[type=radio]{
+  position: absolute;
+  visibility: hidden;
+}
+    
+.ControlVRadio label {
+  position: relative;
+  color: #AAAAAA;
+  font-size: 12px;
+  top: 16px;
+  left: -11px;
+  padding: 0px 20px 0px 20px;
+  z-index: 9;
   cursor: pointer;
-  width: 120px;
-  margin: 0;
-  padding: 12px 5px;
-  border-right: 1px solid #abb2b7;
-  background: #bdc3c7;
-  color: #555e64;
-  font-size: 14px;
-  text-align: center;
-  line-height: 1;
-  transition: .2s;
+  transition: all 0.1s linear;
 }
-.sample label:first-of-type{
-  border-radius: 3px 0 0 3px;
+    
+.ControlVRadio:hover label{
+  color: white;
 }
-.sample label:last-of-type{
-  border-right: 0px;
-  border-radius: 0 3px 3px 0;
+
+.ControlVRadio .RadioMark {
+  display: inline-block; 
+  position: absolute; 
+  border: 2px solid #AAAAAA;
+  border-radius: 100%;
+  height: 10px;
+  width: 10px;
+  top: 16px;
+  left: -10px;
+  z-index: 5;
+  transition: border .1s linear;
+  -webkit-transition: border .1s linear;
 }
-.sample input[type="radio"]:checked + label {
-  background-color: #a1b91d;
-  color: #fff;
+    
+.ControlVRadio:hover .RadioMark {
+  border: 2px solid #FFFFFF;
 }
-*/
+    
+.ControlVRadio .RadioMark::before {
+  display: inline-block;
+  position: absolute;
+  content: '';
+  border-radius: 100%;
+  height: 6px;
+  width: 6px;
+  top: 2px;
+  left: 2px;
+  margin: auto;
+  transition: background 0.1s linear;
+  -webkit-transition: background 0.1s linear;
+}
+    
+.ControlVRadio input[type=radio]:checked ~ .RadioMark {
+  border: 2px solid white;
+}
+    
+.ControlVRadio input[type=radio]:checked ~ .RadioMark::before{
+  background: white;
+}
+    
+.ControlVRadio input[type=radio]:checked ~ label{
+  color: white;
+}
+  

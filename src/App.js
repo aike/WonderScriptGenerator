@@ -11,16 +11,19 @@ class App extends Component {
     super();
     this.state = {
       target: 'ksp',
-      panel_width: "970",
-      panel_height: "200",
-      panel_image: "mypanel.png",
-      icon_image: "myicon.png",
+      panel_width: '970',
+      panel_height: '400',
+      panel_image: 'mypanel.png',
+      icon_image: 'myicon.png',
+      script_title: 'main',
+      knob_type: 'default',
+      custom_knob: 'knob.png',
       volume: false,
       attack: false,
       decay: false,
       sustain: false,
       release: false,
-      code: "on init\n\nend on\n"
+      code: 'on init\n\nend on\n'
     };
 
     this.codecss = {
@@ -79,6 +82,33 @@ class App extends Component {
     this.setState({[key]:value, "code":code});
   }
 
+  onClickCode = (e) => {
+    let range = document.createRange();
+    let node = document.querySelector('code');
+    range.setStart(node.firstChild, 0);
+    range.setEnd(node.lastChild, 0);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+  }
+
+  getHighLightStyle = () => {
+    let style = 'xquery';
+    switch (this.state.target){
+      case 'ksp':
+        style = 'xquery';
+        break;
+      case 'uvi':
+        style = 'lua';
+        break;
+      case 'ds':
+        style = 'xml';
+        break;
+      default:
+        style = 'xquery';
+    }
+    return style;
+  } 
+
   render() {    
     return (
     <div className="App">
@@ -88,51 +118,57 @@ class App extends Component {
       </header>
       <div className="ControlArea">
         <div className="frame">
-          <h1>Target</h1>
-          <div className="sample">
-            <label htmlFor="select1"><input type="radio" name="target" id="select1" value="ksp" checked={this.state.target==="ksp"} onChange={this.onChange3} />KONTAKT (KSP)</label>
-            <label htmlFor="select2"><input type="radio" name="target" id="select2" value="uvi" checked={this.state.target==="uvi"} onChange={this.onChange3} />Falcon (UVI Script)</label>
-            <label htmlFor="select3"><input type="radio" name="target" id="select3" value="ds"  checked={this.state.target==="ds"}  onChange={this.onChange3} />Decent Sampler (dspreset)</label>
+          <h1 className="h1_65 margin_plus">Target</h1>
+          <div class="ControlVRadio"><input type="radio" class="Radio" name="target" id="r1_1" value="ksp" checked={this.state.target==="ksp"} onChange={this.onChange3} /><label class="RadioLabel" htmlFor="r1_1">KONTAKT (KSP)</label><div class="RadioMark"></div></div>
+          <div class="ControlVRadio"><input type="radio" class="Radio" name="target" id="r1_2" value="uvi" checked={this.state.target==="uvi"} onChange={this.onChange3} /><label class="RadioLabel" htmlFor="r1_2">Falcon (UVI Script)</label><div class="RadioMark"></div></div>
+          <div class="ControlVRadio"><input type="radio" class="Radio" name="target" id="r1_3" value="ds"  checked={this.state.target==="ds"}  onChange={this.onChange3} /><label class="RadioLabel" htmlFor="r1_3">Decent Sampler (dspreset)</label><div class="RadioMark"></div></div>
+        </div>
+
+        <div className="frame">
+          <h1 className="h1_80">General</h1>
+          <div class="ControlLabel">Script Title</div>
+          <input class="ControlText" type="text" id="script_title" value={this.state.script_title} onChange={this.onChange2} />
+
+          <div class="ControlLabelRadio">Knob Type</div>
+          <div class="ControlRadio"><input type="radio" class="Radio" name="knob_type" id="r2_1" value="default" checked={this.state.knob_type==="default"} onChange={this.onChange3} /><label class="RadioLabel" htmlFor="r2_1">Default</label><div class="RadioMark"></div></div>
+          <div class="ControlRadio"><input type="radio" class="Radio" name="knob_type" id="r2_2" value="custom"  checked={this.state.knob_type==="custom"} onChange={this.onChange3} /><label class="RadioLabel" htmlFor="r2_2">Custom</label><div class="RadioMark"></div></div>
+
+          <div class="ControlLabel">Custom Knob File</div>
+          <input class="ControlText" type="text" id="custom_knob" value={this.state.custom_knob} onChange={this.onChange2} disabled={this.state.knob_type==="default"}/>
+
+          <div class="ControlLabel">Custom Knob Size</div>
+          <div class="ControlWH">
+            <input class="ControlWH_W" type="number" value="100" disabled={this.state.knob_type==="default"}/>
+            x
+            <input class="ControlWH_H" type="number" value="100" disabled={this.state.knob_type==="default"}/>
           </div>
         </div>
 
         <div className="frame">
-          <h1>General</h1>
-          <div className="general_item">
-            Script Title:
-            <input type="text" id="script_title" value={this.state.panel_image} onChange={this.onChange2} />
-          </div>
-          <div className="general_item">
-            <input type="radio" id="r2_1" name="knob_type" value="standard" checked={this.state.knob_type==="standard"} onChange={this.onChange3} /><label htmlFor="r2_1">Standard Knob</label>
-            <input type="radio" id="r2_2" name="knob_type" value="custom" checked={this.state.knob_type==="custom"} onChange={this.onChange3} /><label htmlFor="r2_2">Custom Knob</label>
-          </div>
+          <h1 className="h1_65">Panel</h1>
+          <div class="ControlLabel">Panel Image File</div>
+          <input class="ControlText" type="text" id="panel_image" value={this.state.panel_image} onChange={this.onChange2} />
+
+          <div class="ControlLabelRadio">Panel Width</div>
+          <div class={this.state.target==='ksp' ? 'ControlRadio' : 'ControlHide'}><input type="radio" class="Radio" name="panel_width" id="r3_1" value="633" checked={this.state.panel_width==="633"} onChange={this.onChange3} /><label class="RadioLabel" htmlFor="r3_1">633px</label><div class="RadioMark"></div></div>
+          <div class={this.state.target==='ksp' ? 'ControlRadio' : 'ControlHide'}><input type="radio" class="Radio" name="panel_width" id="r3_2" value="970" checked={this.state.panel_width==="970"} onChange={this.onChange3} /><label class="RadioLabel" htmlFor="r3_2">970px</label><div class="RadioMark"></div></div>
+          <input class={this.state.target==='uvi' ? 'ControlText' : 'ControlHide'} type="number" value="720" disabled />
+          <input class={this.state.target==='ds' ? 'ControlText' : 'ControlHide'} type="number" value="812" disabled />
+
+          <div class="ControlLabel">Panel Height</div>
+          <input class={this.state.target==='ksp' ? 'ControlText' : 'ControlHide'} type="number" id="panel_height" value={this.state.panel_height} onChange={this.onChange2} />
+          <input class={this.state.target==='uvi' ? 'ControlText' : 'ControlHide'} type="number" value="480" disabled />
+          <input class={this.state.target==='ds' ? 'ControlText' : 'ControlHide'} type="number" value="375" disabled />
+
+          <div class="ControlLabel">Icon Image File</div>
+          <input class="ControlText" type="text" id="icon_image" value={this.state.icon_image} onChange={this.onChange2} />
         </div>
 
         <div className="frame">
-          <h1>Panel</h1>
-          <div className="panel_item">
-            BG Image File:
-            <input type="text" id="panel_image" value={this.state.panel_image} onChange={this.onChange2} />
-          </div>
-          <div className="panel_item">
-            width:
-            <input type="radio" id="r1_1" name="panel_width" value="633" checked={this.state.panel_width==="633"} onChange={this.onChange3} /><label htmlFor="r1_1">633px</label>
-            <input type="radio" id="r1_2" name="panel_width" value="970" checked={this.state.panel_width==="970"} onChange={this.onChange3} /><label htmlFor="r1_2">970px</label>
-          </div>
-          <div className="panel_item">
-            height:
-            <input type="number" id="panel_height" value={this.state.panel_height} onChange={this.onChange2} />
-          </div>
-          <div className="icon_item">
-            Icon Image File:
-            <input type="text" id="icon_image" value={this.state.icon_image} onChange={this.onChange2} />
-          </div>
-        </div>
-
-        <div className="frame">
-          <h1>Control</h1>
+          <h1 className="h1_80">Control</h1>
           <h2>Output</h2>
           <ul>
+            <li><div class="ControlLabel">Volume</div></li>
             <li><input type="checkbox" id="volume"  checked={this.state.volume}  onChange={this.onChange} /><label htmlFor="volume">Volume</label></li>
           </ul>
           <h2>Filter</h2>
@@ -154,7 +190,7 @@ class App extends Component {
       </div>
 
       <div className="CodeArea">
-        <SyntaxHighlighter language="xquery" style={a11yDark} customStyle={this.codecss}>
+        <SyntaxHighlighter language={this.getHighLightStyle()} style={a11yDark} customStyle={this.codecss} onClick={this.onClickCode} >
           {this.state.code}
         </SyntaxHighlighter>
       </div>
