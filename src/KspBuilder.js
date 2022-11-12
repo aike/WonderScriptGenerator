@@ -3,16 +3,13 @@ class KspBuilder {
     this.code = '';
     this.params = {
       panel_width: '970',
-      panel_height: '250',
+      panel_height: '200',
       panel_image: 'mypanel.png',
       icon: false,
       icon_image: 'myicon.png',
       script_title: 'main',
       knob_type: 'default',
       knob_image: 'myknob.png',
-      custom_knob_w: '64',
-      custom_knob_h: '64',
-      custom_knob_step: '31',
 
       volume: false,
       volume_x: '50',

@@ -729,18 +729,18 @@ input[type="text"]{
 
 #CopyButton {
   position: absolute;
-  opacity: 40%;
   top: 90px;
   right: 40px;
   width: 40px;
   height: 25px;
-  background-color: white;
+  background-color: #BBB;
+  opacity: 60%;
   border-radius: 4px;
   cursor : pointer;
 }
 
 #CopyButton:hover {
-  opacity: 70%;
+  opacity: 100%;
 }
 
 #CopyButton img {

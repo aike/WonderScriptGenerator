@@ -12,44 +12,41 @@ class App extends Component {
     this.state = {
       target: 'ksp',
       panel_width: '970',
-      panel_height: '250',
+      panel_height: '200',
       panel_image: 'mypanel.png',
       icon: false,
       icon_image: 'myicon.png',
       script_title: 'main',
       knob_type: 'default',
       knob_image: 'myknob.png',
-      custom_knob_w: '64',
-      custom_knob_h: '64',
-      custom_knob_step: '31',
 
       volume: false,
       volume_x: '50',
       volume_y: '30',
 
       lpf: false,
-      lpf_x: '50',
-      lpf_y: '170',
+      lpf_x: '200',
+      lpf_y: '120',
 
       attack: false,
-      attack_x: '50',
-      attack_y: '100',
+      attack_x: '200',
+      attack_y: '30',
 
       decay: false,
-      decay_x: '150',
-      decay_y: '100',
+      decay_x: '300',
+      decay_y: '30',
 
       sustain: false,
-      sustain_x: '250',
-      sustain_y: '100',
+      sustain_x: '400',
+      sustain_y: '30',
 
       release: false,
-      release_x: '350',
-      release_y: '100',
+      release_x: '500',
+      release_y: '30',
 
       reverb: false,
-      reverb_x: '250',
-      reverb_y: '170',
+      reverb_x: '400',
+      reverb_y: '120',
 
       code: 'on init\n\nend on\n'
     };
