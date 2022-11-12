@@ -4,7 +4,7 @@ class DsBuilder {
     this.params = {
       init: false,
       panel_width: 970,
-      panel_height: 200,
+      panel_height: 300,
       panel_image: "mypanel.png",
       icon_image: "myicon.png",
       volume: false,

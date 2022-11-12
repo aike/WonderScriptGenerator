@@ -1,111 +1,204 @@
 class KspBuilder {
   constructor() {
-    this.code = "";
+    this.code = '';
     this.params = {
-      init: false,
-      panel_width: "970",
-      panel_height: "200",
-      panel_image: "mypanel.png",
-      icon_image: "myicon.png",
+      panel_width: '970',
+      panel_height: '250',
+      panel_image: 'mypanel.png',
+      icon: false,
+      icon_image: 'myicon.png',
+      script_title: 'main',
+      knob_type: 'default',
+      custom_knob: 'knob.png',
+
       volume: false,
+      volume_x: '50',
+      volume_y: '30',
+
+      lpf: false,
+      lpf_x: '50',
+      lpf_y: '170',
+
       attack: false,
+      attack_x: '50',
+      attack_y: '100',
+
       decay: false,
+      decay_x: '150',
+      decay_y: '100',
+
       sustain: false,
-      release: false
+      sustain_x: '250',
+      sustain_y: '100',
+
+      release: false,
+      release_x: '350',
+      release_y: '100',
+
+      reverb: false,
+      reverb_x: '250',
+      reverb_y: '170',
     }
 
     this.initHead = 
-      "on init\n"
-    + "  set_ui_height_px(<HEIGHT>)\n"
-    + "  set_ui_width_px(<WIDTH>)\n"
-    + "  make_perfview\n"
-    + "  set_script_title(\"My Library\")\n"
-    + "  set_control_par_str($INST_WALLPAPER_ID, $CONTROL_PAR_PICTURE, \"<PANEL_IMAGE>\")\n"
-    + "  set_control_par_str($INST_ICON_ID, $CONTROL_PAR_PICTURE, \"<ICON_IMAGE>\")\n"
-    + "  set_skin_offset(0)\n"
-    + "\n"
+      'on init\n'
+    + '  set_ui_height_px(<HEIGHT>)\n'
+    + '  set_ui_width_px(<WIDTH>)\n'
+    + '  make_perfview\n'
+    + '  set_script_title("<TITLE>")\n'
+    + '  set_control_par_str($INST_WALLPAPER_ID, $CONTROL_PAR_PICTURE, "<PANEL_IMAGE>")\n'
+    + '  set_skin_offset(0)\n'
+    + '\n'
+    ;
+
+    this.initIcon =
+      '  { Note: Icon image size: 33px x 34px }\n'
+    + '  set_control_par_str($INST_ICON_ID, $CONTROL_PAR_PICTURE, "<ICON_IMAGE>")\n'
     ;
 
     this.initHeadForGUI = 
-      "  declare $grp\n"
-    + "  $grp := find_group(\"Group 1\")\n"
-    + "\n"
+      '  declare $group\n'
+    + '  $group := find_group("Group 1")\n'
+    + '  declare const $instrument := -1\n'
+    + '  declare const $insert := -1\n'
+    + '  declare const $send := 0\n'
+    + '\n'
     ;
     
     this.initTail = 
-      "  message (\"\")\n"
-    + "end on\n";
+      '  message("")\n'
+    + 'end on\n';
 
     this.volumeInit =
-      "  declare ui_knob $Volume(0, 1000000, 1)\n"
-    + "  move_control_px($Volume, <X>, <Y>)\n" 
-    + "  set_knob_unit($Volume, $KNOB_UNIT_DB)\n" 
-    + "  set_knob_defval($Volume, 500000)  { Note: 500000 = -6dB, 630859 = 0dB }\n"
-    + "  $Volume := get_engine_par($ENGINE_PAR_VOLUME, $grp, -1, -1)\n"
-    + "  set_knob_label($Volume, get_engine_par_disp($ENGINE_PAR_VOLUME, $grp, -1, -1))\n";
+      '  declare ui_knob $Volume(0, 1000000, 1)\n'
+    + '  move_control_px($Volume, <X>, <Y>)\n' 
+    + '  set_knob_unit($Volume, $KNOB_UNIT_DB)\n' 
+    + '  set_knob_defval($Volume, 500000)  { Note: 500000 = -6dB, 630859 = 0dB }\n'
+    + '  $Volume := get_engine_par($ENGINE_PAR_VOLUME, $group, -1, $insert)\n'
+    + '  set_knob_label($Volume, get_engine_par_disp($ENGINE_PAR_VOLUME, $group, -1, $insert))\n';
 
     this.volumeCallback =
-      "on ui_control ($Volume)\n"
-    + "  set_engine_par($ENGINE_PAR_VOLUME, $Volume, $grp, -1, -1)\n"
-    + "  set_knob_label($Volume, get_engine_par_disp($ENGINE_PAR_VOLUME, $grp, -1, -1))\n"
-    + "end on\n";
+      'on ui_control ($Volume)\n'
+    + '  set_engine_par($ENGINE_PAR_VOLUME, $Volume, $group, -1, $insert)\n'
+    + '  set_knob_label($Volume, get_engine_par_disp($ENGINE_PAR_VOLUME, $group, -1, $insert))\n'
+    + 'end on\n';
 
 
     this.attackInit =
-      "  declare ui_knob $Attack(0, 1000000, 1)\n"
-    + "  move_control_px($Attack, <X>, <Y>)\n" 
-    + "  set_knob_unit($Attack, $KNOB_UNIT_MS)\n" 
-    + "  set_knob_defval($Attack, 0)\n"
-    + "  $Attack := get_engine_par($ENGINE_PAR_ATTACK, $grp, 0, -1)\n"
-    + "  set_knob_label($Attack, get_engine_par_disp($ENGINE_PAR_ATTACK, $grp, 0, -1))\n";
+      '  declare ui_knob $Attack(0, 1000000, 1)\n'
+    + '  move_control_px($Attack, <X>, <Y>)\n' 
+    + '  set_knob_unit($Attack, $KNOB_UNIT_MS)\n' 
+    + '  set_knob_defval($Attack, 0)\n'
+    + '  $Attack := get_engine_par($ENGINE_PAR_ATTACK, $group, 0, $insert)\n'
+    + '  set_knob_label($Attack, get_engine_par_disp($ENGINE_PAR_ATTACK, $group, 0, $insert))\n';
 
     this.attackCallback =
-      "on ui_control ($Attack)\n"
-    + "  set_engine_par($ENGINE_PAR_ATTACK, $Attack, $grp, 0, -1)\n"
-    + "  set_knob_label($Attack, get_engine_par_disp($ENGINE_PAR_ATTACK, $grp, 0, -1))\n"
-    + "end on"
+      'on ui_control ($Attack)\n'
+    + '  set_engine_par($ENGINE_PAR_ATTACK, $Attack, $group, 0, $insert)\n'
+    + '  set_knob_label($Attack, get_engine_par_disp($ENGINE_PAR_ATTACK, $group, 0, $insert))\n'
+    + 'end on\n';
 
     this.decayInit =
-      "  declare ui_knob $Decay(0, 1000000, 1)\n"
-    + "  move_control_px($Decay, <X>, <Y>)\n" 
-    + "  set_knob_unit($Decay, $KNOB_UNIT_MS)\n" 
-    + "  set_knob_defval($Decay, 0)\n"
-    + "  $Decay := get_engine_par($ENGINE_PAR_DECAY, $grp, 0, -1)\n"
-    + "  set_knob_label($Decay, get_engine_par_disp($ENGINE_PAR_DECAY, $grp, 0, -1))\n";
+      '  declare ui_knob $Decay(0, 1000000, 1)\n'
+    + '  move_control_px($Decay, <X>, <Y>)\n' 
+    + '  set_knob_unit($Decay, $KNOB_UNIT_MS)\n' 
+    + '  set_knob_defval($Decay, 664063) { Note: 664063 = 1.0sec }\n'
+    + '  $Decay := get_engine_par($ENGINE_PAR_DECAY, $group, 0, $insert)\n'
+    + '  set_knob_label($Decay, get_engine_par_disp($ENGINE_PAR_DECAY, $group, 0, $insert))\n';
 
     this.decayCallback =
-      "on ui_control ($Decay)\n"
-    + "  set_engine_par($ENGINE_PAR_DECAY, $Decay, $grp, 0, -1)\n"
-    + "  set_knob_label($Decay, get_engine_par_disp($ENGINE_PAR_DECAY, $grp, 0, -1))\n"
-    + "end on"
+      'on ui_control ($Decay)\n'
+    + '  set_engine_par($ENGINE_PAR_DECAY, $Decay, $group, 0, $insert)\n'
+    + '  set_knob_label($Decay, get_engine_par_disp($ENGINE_PAR_DECAY, $group, 0, $insert))\n'
+    + 'end on\n';
 
     this.sustainInit =
-      "  declare ui_knob $Sustain(0, 1000000, 1)\n"
-    + "  move_control_px($Sustain, <X>, <Y>)\n" 
-    + "  set_knob_unit($Sustain, $KNOB_UNIT_DB)\n" 
-    + "  set_knob_defval($Sustain, 0)\n"
-    + "  $Sustain := get_engine_par($ENGINE_PAR_SUSTAIN, $grp, 0, -1)\n"
-    + "  set_knob_label($Sustain, get_engine_par_disp($ENGINE_PAR_SUSTAIN, $grp, 0, -1))\n";
+      '  declare ui_knob $Sustain(0, 1000000, 1)\n'
+    + '  move_control_px($Sustain, <X>, <Y>)\n' 
+    + '  set_knob_unit($Sustain, $KNOB_UNIT_DB)\n' 
+    + '  set_knob_defval($Sustain, 1000000)\n'
+    + '  $Sustain := get_engine_par($ENGINE_PAR_SUSTAIN, $group, 0, $insert)\n'
+    + '  set_knob_label($Sustain, get_engine_par_disp($ENGINE_PAR_SUSTAIN, $group, 0, $insert))\n';
 
     this.sustainCallback =
-      "on ui_control ($Sustain)\n"
-    + "  set_engine_par($ENGINE_PAR_SUSTAIN, $Sustain, $grp, 0, -1)\n"
-    + "  set_knob_label($Sustain, get_engine_par_disp($ENGINE_PAR_SUSTAIN, $grp, 0, -1))\n"
-    + "end on"
+      'on ui_control ($Sustain)\n'
+    + '  set_engine_par($ENGINE_PAR_SUSTAIN, $Sustain, $group, 0, $insert)\n'
+    + '  set_knob_label($Sustain, get_engine_par_disp($ENGINE_PAR_SUSTAIN, $group, 0, $insert))\n'
+    + 'end on\n';
 
     this.releaseInit =
-      "  declare ui_knob $Release(0, 1000000, 1)\n"
-    + "  move_control_px($Release, <X>, <Y>)\n" 
-    + "  set_knob_unit($Release, $KNOB_UNIT_MS)\n" 
-    + "  set_knob_defval($Release, 0)\n"
-    + "  $Release := get_engine_par($ENGINE_PAR_RELEASE, $grp, 0, -1)\n"
-    + "  set_knob_label($Release, get_engine_par_disp($ENGINE_PAR_RELEASE, $grp, 0, -1))\n";
+      '  declare ui_knob $Release(0, 1000000, 1)\n'
+    + '  move_control_px($Release, <X>, <Y>)\n' 
+    + '  set_knob_unit($Release, $KNOB_UNIT_MS)\n' 
+    + '  set_knob_defval($Release, 0)\n'
+    + '  $Release := get_engine_par($ENGINE_PAR_RELEASE, $group, 0, $insert)\n'
+    + '  set_knob_label($Release, get_engine_par_disp($ENGINE_PAR_RELEASE, $group, 0, $insert))\n';
 
     this.releaseCallback =
-      "on ui_control ($Release)\n"
-    + "  set_engine_par($ENGINE_PAR_RELEASE, $Release, $grp, 0, -1)\n"
-    + "  set_knob_label($Release, get_engine_par_disp($ENGINE_PAR_RELEASE, $grp, 0, -1))\n"
-    + "end on"
+      'on ui_control ($Release)\n'
+    + '  set_engine_par($ENGINE_PAR_RELEASE, $Release, $group, 0, $insert)\n'
+    + '  set_knob_label($Release, get_engine_par_disp($ENGINE_PAR_RELEASE, $group, 0, $insert))\n'
+    + 'end on\n';
+
+    this.lpfInit =
+      '  declare const $send_slot := 7\n'
+    + '\n'
+    + '  { Note: To use Lpf, set Lpf Fx into slot 0 of Instrument Insert Fx. }\n'
+    + '  declare ui_knob $CutOff(0, 1000000, 1)\n'
+    + '  move_control_px($CutOff, <X>, <Y>)\n' 
+    + '  set_knob_unit($CutOff, $KNOB_UNIT_HZ)\n'
+    + '  set_knob_defval($CutOff, 500000)\n'
+    + '  $CutOff := get_engine_par($ENGINE_PAR_CUTOFF, $instrument, 0, $insert)\n'
+    + '  set_knob_label($CutOff, get_engine_par_disp($ENGINE_PAR_CUTOFF, $instrument, 0, $insert))\n'
+    + '\n'
+    + '  declare ui_knob $Reso(0, 1000000, 1)\n'
+    + '  move_control_px($Reso, <X>, <Y>)\n' 
+    + '  set_knob_unit($Reso, $KNOB_UNIT_PERCENT)\n' 
+    + '  set_knob_defval($Reso, 0)\n'
+    + '  $Reso := get_engine_par($ENGINE_PAR_RESONANCE, $instrument, 0, $insert)\n'
+    + '  set_knob_label($Reso, get_engine_par_disp($ENGINE_PAR_RESONANCE, $instrument, 0, $insert))\n';
+
+    this.lpfCallback =
+      'on ui_control ($CutOff)\n'
+    + '  set_engine_par($ENGINE_PAR_CUTOFF, $CutOff, $instrument, 0, $insert)\n'
+    + '  set_knob_label($CutOff, get_engine_par_disp($ENGINE_PAR_CUTOFF, $instrument, 0, $insert))\n'
+    + 'end on\n'
+    + '\n'
+    + 'on ui_control ($Reso)\n'
+    + '  set_engine_par($ENGINE_PAR_RESONANCE, $Reso, $instrument, 0, $insert)\n'
+    + '  set_knob_label($Reso, get_engine_par_disp($ENGINE_PAR_RESONANCE, $instrument, 0, $insert))\n'
+    + 'end on\n';
+
+
+    this.reverbInit =
+      '  declare const $send_slot := 7\n'
+    + '\n'
+    + '  { Note: To use Reverb, set Reverb Fx into slot 0 of Instrument Send Fx. }\n'
+    + '  declare ui_knob $Reverb(0, 1000000, 1)\n'
+    + '  move_control_px($Reverb, <X>, <Y>)\n' 
+    + '  set_knob_unit($Reverb, $KNOB_UNIT_DB)\n' 
+    + '  set_knob_defval($Reverb, 630859) { 630859 = 0dB }\n'
+    + '  $Reverb := get_engine_par($ENGINE_PAR_SENDLEVEL_0, $instrument, $send_slot, $insert)\n'
+    + '  set_knob_label($Reverb, get_engine_par_disp($ENGINE_PAR_SENDLEVEL_0, $instrument, $send_slot, $insert))\n'
+    + '\n'
+    + '  declare ui_knob $Size(0, 1000000, 1)\n'
+    + '  move_control_px($Size, <X>, <Y>)\n' 
+    + '  set_knob_unit($Size, $KNOB_UNIT_PERCENT)\n' 
+    + '  set_knob_defval($Size, 500000)\n'
+    + '  $Size := get_engine_par($ENGINE_PAR_RV2_SIZE, $instrument, 0, $send)\n'
+    + '  set_knob_label($Size, get_engine_par_disp($ENGINE_PAR_RV2_SIZE, $instrument, 0, $send))\n';
+
+    this.reverbCallback =
+      'on ui_control ($Reverb)\n'
+    + '  set_engine_par($ENGINE_PAR_SENDLEVEL_0, $Reverb, $instrument, $send_slot, $insert)\n'
+    + '  set_knob_label($Reverb, get_engine_par_disp($ENGINE_PAR_SENDLEVEL_0, $instrument, $send_slot, $insert))\n'
+    + 'end on\n'
+    + '\n'
+    + 'on ui_control ($Size)\n'
+    + '  set_engine_par($ENGINE_PAR_RV2_SIZE, $Size, $instrument, 0, $send)\n'
+    + '  set_knob_label($Size, get_engine_par_disp($ENGINE_PAR_RV2_SIZE, $instrument, 0, $send))\n'
+    + 'end on\n';
+
 
 
     this.code = this.getCode({init:true}, true);
@@ -125,88 +218,76 @@ class KspBuilder {
       }    
     }
     if (!modifyFlag) {
-      console.log("cache hit");
+      console.log('cache hit');
       return this.code;
     }
 
     let init = this.initHead
-      .replace("<PANEL_IMAGE>", this.params.panel_image.replace(/\..+$/, ""))
-      .replace("<ICON_IMAGE>", this.params.icon_image.replace(/\..+$/, ""))
-      .replace("<HEIGHT>", this.params.panel_height)
-      .replace("<WIDTH>", this.params.panel_width)
+      .replace('<PANEL_IMAGE>', this.params.panel_image.replace(/\..+$/, ''))
+      .replace('<TITLE>', this.params.script_title)
+      .replace('<HEIGHT>', this.params.panel_height)
+      .replace('<WIDTH>', this.params.panel_width)
       ;
+    if (this.params.icon) {
+      init += this.initIcon.replace('<ICON_IMAGE>', this.params.icon_image.replace(/\..+$/, ''))
+    }
+
     if ( this.params.volume
       || this.params.attack
       || this.params.decay
       || this.params.sustain
       || this.params.release
+      || this.params.lpf
+      || this.params.reverb
     ) {
       init += this.initHeadForGUI;
     }
 
-    let callbacks = "";
-    let x = 50;
-    let y = 50;
+    let callbacks = '';
 
     if (this.params.volume) {
-      init += this.volumeInit.replace("<X>", String(x)).replace("<Y>", String(y)) + "\n\n";
-      x += 100;
-      callbacks += this.volumeCallback + "\n\n";
+      init += this.volumeInit.replace('<X>', this.params.volume_x).replace('<Y>', this.params.volume_y) + '\n\n';
+      callbacks += this.volumeCallback + '\n\n';
     }
     if (this.params.attack) {
-      init += this.attackInit.replace("<X>", String(x)).replace("<Y>", String(y)) + "\n\n";
-      x += 100;
-      callbacks += this.attackCallback + "\n\n";
+      init += this.attackInit.replace('<X>', this.params.attack_x).replace('<Y>', this.params.attack_y) + '\n\n';
+      callbacks += this.attackCallback + '\n\n';
     }
     if (this.params.decay) {
-      init += this.decayInit.replace("<X>", String(x)).replace("<Y>", String(y)) + "\n\n";
-      x += 100;
-      callbacks += this.decayCallback + "\n\n";
+      init += this.decayInit.replace('<X>', this.params.decay_x).replace('<Y>', this.params.decay_y) + '\n\n';
+      callbacks += this.decayCallback + '\n\n';
     }
     if (this.params.sustain) {
-      init += this.sustainInit.replace("<X>", String(x)).replace("<Y>", String(y)) + "\n\n";
-      x += 100;
-      callbacks += this.sustainCallback + "\n\n";
+      init += this.sustainInit.replace('<X>', this.params.sustain_x).replace('<Y>', this.params.sustain_y) + '\n\n';
+      callbacks += this.sustainCallback + '\n\n';
     }
     if (this.params.release) {
-      init += this.releaseInit.replace("<X>", String(x)).replace("<Y>", String(y)) + "\n\n";
-      x += 100;
-      callbacks += this.releaseCallback + "\n\n";
+      init += this.releaseInit.replace('<X>', this.params.release_x).replace('<Y>', this.params.release_y) + '\n\n';
+      callbacks += this.releaseCallback + '\n\n';
+    }
+    if (this.params.lpf) {
+      let x100 = Number(this.params.lpf_x) + 100;
+      init += this.lpfInit.replace('<X>', this.params.lpf_x).replace('<Y>', this.params.lpf_y)
+        .replace('<X>', x100).replace('<Y>', this.params.lpf_y)
+        + '\n\n';
+      callbacks += this.lpfCallback + '\n\n';
+    }
+    if (this.params.reverb) {
+      let x100 = Number(this.params.reverb_x) + 100;
+      init += this.reverbInit.replace('<X>', this.params.reverb_x).replace('<Y>', this.params.reverb_y)
+        .replace('<X>', x100).replace('<Y>', this.params.reverb_y)
+        + '\n\n';
+      callbacks += this.reverbCallback + '\n\n';
     }
 
-    init += "\n\n" + this.initTail;
+    init += '\n\n' + this.initTail;
 
-    this.code = init + "\n\n" + callbacks;
-    this.code = this.code.replace(/\n\n\n+/g, "\n\n");
+    this.code = init + '\n\n' + callbacks;
+    this.code = this.code.replace(/\n\n\n+/g, '\n\n');
 
     return this.code;
   }
-/*
-  guiVolume(flag) {
-    if (this.params.volume !== flag) {
-      this.modifyFlag = true;
-      this.params.volume = flag;
-    }
-  }
-
-  guiAttack(flag) {
-    if (this.params.attack !== flag) {
-      this.modifyFlag = true;
-      this.params.attack = flag;
-    }
-  }
-*/
 }
-
-/*
-let cb = new CodeBuilder();
-console.log("================================");
-console.log(cb.getCode());
-console.log("--------------------------------");
-cb.guiAttack(true);
-console.log(cb.getCode());
-console.log("================================");
-*/
 
 
 export default KspBuilder;
