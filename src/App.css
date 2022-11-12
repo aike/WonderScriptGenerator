@@ -274,6 +274,88 @@ input[type="text"]{
     color: white;
   }
   
+
+  .ControlRadio3 {
+    /*  background-color: #666; */ 
+      color: #AAAAAA;
+      display: inline;
+      position: relative;
+      padding: 0px 0px 0px 0px;
+      margin: 0px 0px 0px 0px;
+      top: -24px;
+      left: 112px;
+    }
+    
+    .ControlRadio3 input[type=radio]{
+      position: absolute;
+      visibility: hidden;
+    }
+    
+    .ControlRadio3 label {
+    /*    background-color: #888; */
+      position: relative;
+      color: #AAAAAA;
+      font-size: 12px;
+      top: 16px;
+      left: -11px;
+      padding: 0px 18px 0px 20px;
+      z-index: 9;
+      cursor: pointer;
+      transition: all 0.1s linear;
+    }
+    
+    .ControlRadio3:hover label{
+      color: white;
+    }
+    
+    .ControlRadio3 .RadioMark {
+      display: inline-block; 
+      position: absolute; 
+      border: 2px solid #AAAAAA;
+      border-radius: 100%;
+      height: 10px;
+      width: 10px;
+      top: 16px;
+      left: -10px;
+      z-index: 5;
+      transition: border .1s linear;
+      -webkit-transition: border .1s linear;
+    }
+    
+    .ControlRadio3:hover .RadioMark {
+      border: 2px solid #FFFFFF;
+    }
+    
+    .ControlRadio3 .RadioMark::before {
+      display: inline-block;
+      position: absolute;
+      content: '';
+      border-radius: 100%;
+      height: 6px;
+      width: 6px;
+      top: 2px;
+      left: 2px;
+      margin: auto;
+      transition: background 0.1s linear;
+      -webkit-transition: background 0.1s linear;
+    }
+    
+    .ControlRadio3 input[type=radio]:checked ~ .RadioMark {
+      border: 2px solid white;
+    }
+    
+    .ControlRadio3 input[type=radio]:checked ~ .RadioMark::before{
+      background: white;
+    }
+    
+    .ControlRadio3 input[type=radio]:checked ~ label{
+      color: white;
+    }
+  
+
+
+
+
   .ControlWH {
     position: relative;
     top: -10px;
@@ -643,4 +725,24 @@ input[type="text"]{
   top: -10px;
   margin-bottom: -5px;
   color: #DDD;
+}
+
+#CopyButton {
+  position: absolute;
+  opacity: 40%;
+  top: 90px;
+  right: 40px;
+  width: 40px;
+  height: 25px;
+  background-color: white;
+  border-radius: 4px;
+  cursor : pointer;
+}
+
+#CopyButton:hover {
+  opacity: 70%;
+}
+
+#CopyButton img {
+  margin: 5px 0px 0px 10px;
 }

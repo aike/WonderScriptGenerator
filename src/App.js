@@ -56,7 +56,7 @@ class App extends Component {
 
     this.codecss = {
         position: 'relative',
-        width: '96%',
+        width: 'calc(100% - 30px)',
         height: '100%',
         borderRadius: '7px',
         border: '2px solid #ddd',
@@ -120,6 +120,12 @@ class App extends Component {
     window.getSelection().addRange(range);
   }
 
+  onClickCopy = (e) => {
+    this.onClickCode();
+    navigator.clipboard.writeText(window.getSelection());
+    window.getSelection().removeAllRanges();
+  }
+
   getHighLightStyle = () => {
     let style = 'xquery';
     switch (this.state.target){
@@ -143,7 +149,7 @@ class App extends Component {
     <div className="App">
       <header className="App-header">
         <div id="title">Wonder Script Generator</div>
-        <div id="subtitle">A Virtual Instrument Engine Script Generator for KONTAKT, UVI Falcon and Decent Sampler</div>
+        <div id="subtitle">Virtual Instrument Engine Script Generator for KONTAKT, UVI Falcon and Decent Sampler</div>
       </header>
       <div className="Wrapper">
       <div className="ControlArea">
@@ -183,8 +189,9 @@ class App extends Component {
           <input className="ControlText" type="text" id="panel_image" value={this.state.panel_image} onChange={this.onChange2} />
 
           <div className="ControlLabelRadio">Panel Width</div>
-          <div className={this.state.target==='ksp' ? 'ControlRadio' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_1" value="633" checked={this.state.panel_width==="633"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_1">633px</label><div className="RadioMark"></div></div>
-          <div className={this.state.target==='ksp' ? 'ControlRadio' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_2" value="970" checked={this.state.panel_width==="970"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_2">970px</label><div className="RadioMark"></div></div>
+          <div className={this.state.target==='ksp' ? 'ControlRadio3' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_1" value="633" checked={this.state.panel_width==="633"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_1">633</label><div className="RadioMark"></div></div>
+          <div className={this.state.target==='ksp' ? 'ControlRadio3' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_2" value="770" checked={this.state.panel_width==="770"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_2">770</label><div className="RadioMark"></div></div>
+          <div className={this.state.target==='ksp' ? 'ControlRadio3' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_3" value="970" checked={this.state.panel_width==="970"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_3">970</label><div className="RadioMark"></div></div>
           <input className={this.state.target==='uvi' ? 'ControlText' : 'ControlHide'} type="number" value="720" disabled />
           <input className={this.state.target==='ds' ? 'ControlText' : 'ControlHide'} type="number" value="812" disabled />
 
@@ -294,6 +301,7 @@ class App extends Component {
         <SyntaxHighlighter language={this.getHighLightStyle()} style={a11yDark} customStyle={this.codecss} onClick={this.onClickCode} >
           {this.state.code}
         </SyntaxHighlighter>
+        <div id="CopyButton" onClick={this.onClickCopy}><img src="copy.png" /></div>
       </div>
       </div>
     </div>
