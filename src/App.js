@@ -18,7 +18,7 @@ class App extends Component {
       icon_image: 'myicon.png',
       script_title: 'main',
       knob_type: 'default',
-      custom_knob: 'knob.png',
+      knob_image: 'myknob.png',
       custom_knob_w: '64',
       custom_knob_h: '64',
       custom_knob_step: '31',
@@ -164,8 +164,8 @@ class App extends Component {
           <div className="ControlRadio"><input type="radio" className="Radio" name="knob_type" id="r2_2" value="custom"  checked={this.state.knob_type==="custom"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r2_2">Custom</label><div className="RadioMark"></div></div>
 
           <div className="ControlLabel">Custom Knob File</div>
-          <input className="ControlText" type="text" id="custom_knob" value={this.state.custom_knob} onChange={this.onChange2} disabled={this.state.knob_type==="default"}/>
-
+          <input className="ControlText" type="text" id="knob_image" value={this.state.knob_image} onChange={this.onChange2} disabled={this.state.knob_type==="default"}/>
+          {/*
           <div className="ControlLabel">Custom Knob Size</div>
           <div className="ControlWH">
             <input className="ControlWH_W" type="number" value={this.state.custom_knob_w} disabled={this.state.knob_type==="default"}/>
@@ -174,7 +174,8 @@ class App extends Component {
           </div>
           <div className="ControlLabel">Custom Knob Step</div>
           <input className="ControlText" type="number" id="custom_knob_step" value={this.state.custom_knob_step} onChange={this.onChange2} disabled={this.state.knob_type==="default"}/>
-        </div>
+          */}
+          </div>
 
         <div className="frame">
           <h1 className="h1_65">Panel</h1>
@@ -209,8 +210,8 @@ class App extends Component {
               <div className="ControlLabelCheck">Volume</div>
               <div className="ControlCheck"><input type="checkbox" className="Check" id="volume" checked={this.state.volume} onChange={this.onChange}/>
               <label className="CheckLabel" htmlFor="volume">Show</label><div className="CheckMark"/></div>
-              <input className="ControlXY_X" type="number" value={this.state.volume_x} disabled={!this.state.volume}/>
-              <input className="ControlXY_Y" type="number" value={this.state.volume_x} disabled={!this.state.volume}/>
+              <input className="ControlXY_X" type="number" id="volume_x" value={this.state.volume_x} disabled={!this.state.volume} onChange={this.onChange2}/>
+              <input className="ControlXY_Y" type="number" id="volume_y" value={this.state.volume_y} disabled={!this.state.volume} onChange={this.onChange2}/>
             </li>
           </ul>
           <h2>Filter</h2>
@@ -221,8 +222,8 @@ class App extends Component {
               <div className="ControlLabelCheck">LPF</div>
               <div className="ControlCheck"><input type="checkbox" className="Check" id="lpf" checked={this.state.lpf} onChange={this.onChange}/>
               <label className="CheckLabel" htmlFor="lpf">Show</label><div className="CheckMark"/></div>
-              <input className="ControlXY_X" type="number" id="lpf_x" value={this.state.lpf_x} disabled={!this.state.lpf}/>
-              <input className="ControlXY_Y" type="number" id="lpf_y" value={this.state.lpf_y} disabled={!this.state.lpf}/>
+              <input className="ControlXY_X" type="number" id="lpf_x" value={this.state.lpf_x} disabled={!this.state.lpf} onChange={this.onChange2}/>
+              <input className="ControlXY_Y" type="number" id="lpf_y" value={this.state.lpf_y} disabled={!this.state.lpf} onChange={this.onChange2}/>
             </li>
           </ul>
           <h2>Envelope Generator</h2>
@@ -233,29 +234,29 @@ class App extends Component {
               <div className="ControlLabelCheck">Attack</div>
               <div className="ControlCheck"><input type="checkbox" className="Check" id="attack" checked={this.state.attack} onChange={this.onChange}/>
               <label className="CheckLabel" htmlFor="attack">Show</label><div className="CheckMark"/></div>
-              <input className="ControlXY_X" type="number" id="attack_x" value={this.state.attack_x} disabled={!this.state.attack}/>
-              <input className="ControlXY_Y" type="number" id="attack_y" value={this.state.attack_y} disabled={!this.state.attack}/>
+              <input className="ControlXY_X" type="number" id="attack_x" value={this.state.attack_x} disabled={!this.state.attack} onChange={this.onChange2}/>
+              <input className="ControlXY_Y" type="number" id="attack_y" value={this.state.attack_y} disabled={!this.state.attack} onChange={this.onChange2}/>
             </li>
             <li>
               <div className="ControlLabelCheck">Decay</div>
               <div className="ControlCheck"><input type="checkbox" className="Check" id="decay" checked={this.state.decay} onChange={this.onChange}/>
               <label className="CheckLabel" htmlFor="decay">Show</label><div className="CheckMark"/></div>
-              <input className="ControlXY_X" type="number" id="decay_x" value={this.state.decay_x} disabled={!this.state.decay}/>
-              <input className="ControlXY_Y" type="number" id="decay_y" value={this.state.decay_y} disabled={!this.state.decay}/>
+              <input className="ControlXY_X" type="number" id="decay_x" value={this.state.decay_x} disabled={!this.state.decay} onChange={this.onChange2}/>
+              <input className="ControlXY_Y" type="number" id="decay_y" value={this.state.decay_y} disabled={!this.state.decay} onChange={this.onChange2}/>
             </li>
             <li>
               <div className="ControlLabelCheck">Sustain</div>
               <div className="ControlCheck"><input type="checkbox" className="Check" id="sustain" checked={this.state.sustain} onChange={this.onChange}/>
               <label className="CheckLabel" htmlFor="sustain">Show</label><div className="CheckMark"/></div>
-              <input className="ControlXY_X" type="number" id="sustain_x" value={this.state.sustain_x} disabled={!this.state.sustain}/>
-              <input className="ControlXY_Y" type="number" id="sustain_y" value={this.state.sustain_y} disabled={!this.state.sustain}/>
+              <input className="ControlXY_X" type="number" id="sustain_x" value={this.state.sustain_x} disabled={!this.state.sustain} onChange={this.onChange2}/>
+              <input className="ControlXY_Y" type="number" id="sustain_y" value={this.state.sustain_y} disabled={!this.state.sustain} onChange={this.onChange2}/>
             </li>
             <li>
               <div className="ControlLabelCheck">Release</div>
               <div className="ControlCheck"><input type="checkbox" className="Check" id="release" checked={this.state.release} onChange={this.onChange}/>
               <label className="CheckLabel" htmlFor="release">Show</label><div className="CheckMark"/></div>
-              <input className="ControlXY_X" type="number" id="release_x" value={this.state.release_x} disabled={!this.state.release}/>
-              <input className="ControlXY_Y" type="number" id="release_y" value={this.state.release_y} disabled={!this.state.release}/>
+              <input className="ControlXY_X" type="number" id="release_x" value={this.state.release_x} disabled={!this.state.release} onChange={this.onChange2}/>
+              <input className="ControlXY_Y" type="number" id="release_y" value={this.state.release_y} disabled={!this.state.release} onChange={this.onChange2}/>
             </li>
 
 
@@ -268,8 +269,8 @@ class App extends Component {
               <div className="ControlLabelCheck">Reverb</div>
               <div className="ControlCheck"><input type="checkbox" className="Check" id="reverb" checked={this.state.reverb} onChange={this.onChange}/>
               <label className="CheckLabel" htmlFor="reverb">Show</label><div className="CheckMark"/></div>
-              <input className="ControlXY_X" type="number" id="reverb_x" value={this.state.reverb_x} disabled={!this.state.reverb}/>
-              <input className="ControlXY_Y" type="number" id="reverb_y" value={this.state.reverb_y} disabled={!this.state.reverb}/>
+              <input className="ControlXY_X" type="number" id="reverb_x" value={this.state.reverb_x} disabled={!this.state.reverb} onChange={this.onChange2}/>
+              <input className="ControlXY_Y" type="number" id="reverb_y" value={this.state.reverb_y} disabled={!this.state.reverb} onChange={this.onChange2}/>
             </li>
           </ul>
         </div>
