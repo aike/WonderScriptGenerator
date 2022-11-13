@@ -13,7 +13,7 @@ class App extends Component {
     this.state = {
       target: 'ksp',
       panel_width: '970',
-      panel_height: '200',
+      panel_height: '300',
       panel_image: 'mypanel.png',
       icon: false,
       icon_image: 'myicon.png',
@@ -224,18 +224,6 @@ class App extends Component {
               <input className="ControlXY_Y" type="number" id="volume_y" value={this.state.volume_y} disabled={!this.state.volume} onChange={this.onChange2}/>
             </li>
           </ul>
-          <h2>Filter</h2>
-          <div className="XY_X">X</div>
-          <div className="XY_Y">Y</div>
-          <ul>
-            <li>
-              <div className="ControlLabelCheck">LPF</div>
-              <div className="ControlCheck"><input type="checkbox" className="Check" id="lpf" checked={this.state.lpf} onChange={this.onChange}/>
-              <label className="CheckLabel" htmlFor="lpf">Show</label><div className="CheckMark"/></div>
-              <input className="ControlXY_X" type="number" id="lpf_x" value={this.state.lpf_x} disabled={!this.state.lpf} onChange={this.onChange2}/>
-              <input className="ControlXY_Y" type="number" id="lpf_y" value={this.state.lpf_y} disabled={!this.state.lpf} onChange={this.onChange2}/>
-            </li>
-          </ul>
           <h2>Envelope Generator</h2>
           <div className="XY_X">X</div>
           <div className="XY_Y">Y</div>
@@ -268,8 +256,18 @@ class App extends Component {
               <input className="ControlXY_X" type="number" id="release_x" value={this.state.release_x} disabled={!this.state.release} onChange={this.onChange2}/>
               <input className="ControlXY_Y" type="number" id="release_y" value={this.state.release_y} disabled={!this.state.release} onChange={this.onChange2}/>
             </li>
-
-
+          </ul>
+          <h2>Filter</h2>
+          <div className="XY_X">X</div>
+          <div className="XY_Y">Y</div>
+          <ul>
+            <li>
+              <div className="ControlLabelCheck">LPF</div>
+              <div className="ControlCheck"><input type="checkbox" className="Check" id="lpf" checked={this.state.lpf} onChange={this.onChange}/>
+              <label className="CheckLabel" htmlFor="lpf">Show</label><div className="CheckMark"/></div>
+              <input className="ControlXY_X" type="number" id="lpf_x" value={this.state.lpf_x} disabled={!this.state.lpf} onChange={this.onChange2}/>
+              <input className="ControlXY_Y" type="number" id="lpf_y" value={this.state.lpf_y} disabled={!this.state.lpf} onChange={this.onChange2}/>
+            </li>
           </ul>
           <h2>FX</h2>
           <div className="XY_X">X</div>
