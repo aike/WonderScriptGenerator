@@ -4,6 +4,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import KspBuilder from './KspBuilder';
+import UviBuilder from './UviBuilder';
 import DsBuilder from './DsBuilder';
 
 class App extends Component {
@@ -70,6 +71,7 @@ class App extends Component {
 
   componentDidMount() {
     this.kspBuilder = new KspBuilder();
+    this.uviBuilder = new UviBuilder(); 
     this.DsBuilder = new DsBuilder();
     this.cb = this.kspBuilder;
     let code = this.cb.getCode(this.state);
@@ -100,6 +102,8 @@ class App extends Component {
     if (key === 'target') {
       if (value === 'ksp') {
         this.cb = this.kspBuilder;
+      } else if (value === 'uvi') {
+        this.cb = this.uviBuilder;
       } else if (value === 'ds') {
         this.cb = this.DsBuilder;
       }
