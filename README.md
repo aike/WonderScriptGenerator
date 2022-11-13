@@ -8,12 +8,13 @@ Virtual Instrument Engine Script Generator for KONTAKT, UVI Falcon and Decent Sa
 https://aike.github.io/WonderScriptGenerator/
 
 ## Features
-* Generate general purpose script
-* 3 virtual instrument engine script
-  * [NI KONTAKT (KSP)](https://www.native-instruments.com/jp/products/komplete/samplers/kontakt-7/)
+* Generate general purpose virtual instrument script
+* Three different script languenge
+  * [NI KONTAKT (KSP)](https://www.native-instruments.com/en/products/komplete/samplers/kontakt-7/)
   * [UVI Falcon (UVI Script)](https://www.uvi.net/instruments/falcon.html)
   * [Decent Sampler (dspreset)](https://www.decentsamples.com/product/decent-sampler-plugin/)
-* Volume, Envelope Generator, LPF, Reverb Knob
+* Volume, Envelope Generator, LPF and Reverb Knobs
+* Custom background panel image
 * Custom image knob
 
 ## License
