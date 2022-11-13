@@ -461,7 +461,7 @@ class KspBuilder {
       if (this.params.lpf) {
         let x100 = Number(this.params.lpf_x) + 100;
         init += this.lpfInitWithCustomKnob
-        .replace('<X>', this.params.reverb_x).replace(/<Y>/g, this.params.reverb_y)
+        .replace('<X>', this.params.lpf_x).replace(/<Y>/g, this.params.lpf_y)
         .replace('<X>', x100) + '\n\n';
         callbacks += this.lpfCallbackWithCustomKnob + '\n\n';
       }
