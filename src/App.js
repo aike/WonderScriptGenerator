@@ -19,6 +19,9 @@ class App extends Component {
       script_title: 'main',
       knob_type: 'default',
       knob_image: 'myknob.png',
+      custom_knob_w: '64',
+      custom_knob_h: '64',
+      custom_knob_step: '31',
 
       volume: false,
       volume_x: '50',
@@ -77,7 +80,6 @@ class App extends Component {
   onChange = (e) => {
     let key = e.target.id;
     let value = e.target.checked;
-    console.log(key, value);
     let code = this.cb.getCode({[key]:value});
     this.setState({[key]:value, "code":code});
   }
@@ -168,16 +170,14 @@ class App extends Component {
 
           <div className="ControlLabel">Custom Knob File</div>
           <input className="ControlText" type="text" id="knob_image" value={this.state.knob_image} onChange={this.onChange2} disabled={this.state.knob_type==="default"}/>
-          {/*
           <div className="ControlLabel">Custom Knob Size</div>
           <div className="ControlWH">
-            <input className="ControlWH_W" type="number" value={this.state.custom_knob_w} disabled={this.state.knob_type==="default"}/>
+            <input className="ControlWH_W" type="number" id="custom_knob_w" value={this.state.custom_knob_w} onChange={this.onChange2} disabled={this.state.knob_type==="default"}/>
             x
-            <input className="ControlWH_H" type="number" value={this.state.custom_knob_h} disabled={this.state.knob_type==="default"}/>
+            <input className="ControlWH_H" type="number" id="custom_knob_h" value={this.state.custom_knob_h} onChange={this.onChange2} disabled={this.state.knob_type==="default"}/>
           </div>
           <div className="ControlLabel">Custom Knob Step</div>
-          <input className="ControlText" type="number" id="custom_knob_step" value={this.state.custom_knob_step} onChange={this.onChange2} disabled={this.state.knob_type==="default"}/>
-          */}
+            <input className="ControlText" type="number" id="custom_knob_step" value={this.state.custom_knob_step} onChange={this.onChange2} disabled={this.state.knob_type==="default"}/>
           </div>
 
         <div className="frame">

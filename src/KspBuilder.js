@@ -5,39 +5,39 @@ class KspBuilder {
       panel_width: '970',
       panel_height: '200',
       panel_image: 'mypanel.png',
-      icon: false,
-      icon_image: 'myicon.png',
-      script_title: 'main',
       knob_type: 'default',
       knob_image: 'myknob.png',
+      custom_knob_w: '64',
+      custom_knob_h: '64',
+      custom_knob_step: '31',
 
       volume: false,
       volume_x: '50',
       volume_y: '30',
 
       lpf: false,
-      lpf_x: '50',
-      lpf_y: '170',
+      lpf_x: '200',
+      lpf_y: '120',
 
       attack: false,
-      attack_x: '50',
-      attack_y: '100',
+      attack_x: '200',
+      attack_y: '30',
 
       decay: false,
-      decay_x: '150',
-      decay_y: '100',
+      decay_x: '300',
+      decay_y: '30',
 
       sustain: false,
-      sustain_x: '250',
-      sustain_y: '100',
+      sustain_x: '400',
+      sustain_y: '30',
 
       release: false,
-      release_x: '350',
-      release_y: '100',
+      release_x: '500',
+      release_y: '30',
 
       reverb: false,
-      reverb_x: '250',
-      reverb_y: '170',
+      reverb_x: '400',
+      reverb_y: '120'
     }
 
     this.initHead = 
@@ -433,53 +433,47 @@ class KspBuilder {
       let knob_image = this.params.knob_image.replace(/\..+$/, '');
       if (this.params.volume) {
         init += this.volumeInitWithCustomKnob
-        .replace('<X>', this.params.volume_x).replace('<Y>', this.params.volume_y)
-        .replace('<KNOB_IMAGE>', knob_image) + '\n\n';
+        .replace('<X>', this.params.volume_x).replace('<Y>', this.params.volume_y) + '\n\n';
         callbacks += this.volumeCallbackWithCustomKnob + '\n\n';
       }
       if (this.params.attack) {
         init += this.attackInitWithCustomKnob
-        .replace('<X>', this.params.attack_x).replace('<Y>', this.params.attack_y)
-        .replace('<KNOB_IMAGE>', knob_image) + '\n\n';
+        .replace('<X>', this.params.attack_x).replace('<Y>', this.params.attack_y) + '\n\n';
         callbacks += this.attackCallbackWithCustomKnob + '\n\n';
       }
       if (this.params.decay) {
         init += this.decayInitWithCustomKnob
-        .replace('<X>', this.params.decay_x).replace('<Y>', this.params.decay_y)
-        .replace('<KNOB_IMAGE>', knob_image) + '\n\n';
+        .replace('<X>', this.params.decay_x).replace('<Y>', this.params.decay_y) + '\n\n';
         callbacks += this.decayCallbackWithCustomKnob + '\n\n';
       }
       if (this.params.sustain) {
-        init += this.sustainInitWithCustomKnob.replace('<X>', this.params.sustain_x)
-        .replace('<Y>', this.params.sustain_y)
-        .replace('<KNOB_IMAGE>', knob_image) + '\n\n';
+        init += this.sustainInitWithCustomKnob
+        .replace('<X>', this.params.sustain_x).replace('<Y>', this.params.sustain_y) + '\n\n';
         callbacks += this.sustainCallbackWithCustomKnob + '\n\n';
       }
       if (this.params.release) {
         init += this.releaseInitWithCustomKnob
-        .replace('<X>', this.params.release_x).replace('<Y>', this.params.release_y)
-        .replace('<KNOB_IMAGE>', knob_image) + '\n\n';
+        .replace('<X>', this.params.release_x).replace('<Y>', this.params.release_y) + '\n\n';
         callbacks += this.releaseCallbackWithCustomKnob + '\n\n';
       }
       if (this.params.lpf) {
         let x100 = Number(this.params.lpf_x) + 100;
         init += this.lpfInitWithCustomKnob
-        .replace('<X>', this.params.lpf_x).replace('<Y>', this.params.lpf_y)
-        .replace('<X>', x100).replace('<Y>', this.params.lpf_y)
-        .replace('<KNOB_IMAGE>', knob_image)
-        .replace('<KNOB_IMAGE>', knob_image) + '\n\n';
+        .replace('<X>', this.params.reverb_x).replace(/<Y>/g, this.params.reverb_y)
+        .replace('<X>', x100) + '\n\n';
         callbacks += this.lpfCallbackWithCustomKnob + '\n\n';
       }
       if (this.params.reverb) {
         let x100 = Number(this.params.reverb_x) + 100;
         init += this.reverbInitWithCustomKnob
-        .replace('<X>', this.params.reverb_x).replace('<Y>', this.params.reverb_y)
-        .replace('<X>', x100).replace('<Y>', this.params.reverb_y)
-        .replace('<KNOB_IMAGE>', knob_image)
-        .replace('<KNOB_IMAGE>', knob_image) + '\n\n';
+        .replace('<X>', this.params.reverb_x).replace(/<Y>/g, this.params.reverb_y)
+        .replace('<X>', x100) + '\n\n';
         callbacks += this.reverbCallbackWithCustomKnob + '\n\n';
       }
     }
+
+    init = init
+    .replace(/<KNOB_IMAGE>/g, this.params.knob_image);
 
     init += '\n\n' + this.initTail;
 
