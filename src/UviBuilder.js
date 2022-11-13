@@ -41,7 +41,7 @@ class UviBuilder {
     }
 
     this.initHead = 
-      'setSize(<WIDTH>, <HEIGHT>)\n'
+      'setSize(720, <HEIGHT>)\n'
     + 'setBackground("<PANEL_IMAGE>")\n'
     + 'makePerformanceView()\n'
     + '\n'
@@ -63,12 +63,24 @@ class UviBuilder {
     ;
 
     this.volumeInitWithCustomKnob =
-      ''
+      'local volume\n'
+    + 'volume = Knob("Volume", 1, 0, 2)\n'
+    + 'volume.pos = {<X>, <Y>}\n'
+    + 'volume.size = {<W>, <H>}\n'
+    + 'volume:setStripImage("<KNOB_IMAGE>", <STEP>)\n'
+    + 'volume.mapper = Mapper.Cubic\n'
+    + 'volume.unit = Unit.LinearGain\n'
+    + 'volume:setValue(Program:getParameter("Volume"))\n'
+    + 'volume.changed = function(self)\n'
+    + '  Program:setParameter("Volume", self.value)\n'
+    + 'end\n'
+    + '\n'
     ;
 
     // ---------------------
     this.egInitHead =
-      'local eg\n'
+    '-- Note: To use Envelope Generator, set EG(Analog ADSR, etc.) into modulation of Keygroup.\n'
+    + 'local eg\n'
     + 'local attack, decay, sustain, release\n'
     + 'for _, module in pairs(Program.layers[1].keygroups[1].modulations) do\n'
     + '  if module:hasParameter("AttackTime") then\n'
@@ -80,7 +92,8 @@ class UviBuilder {
 
     this.egInitTail =
       'end\n'
-    ;
+      + '\n'
+      ;
 
     this.attackInit =
       '  attack = Knob("Attack", 0, 0, 4)\n'
@@ -94,8 +107,18 @@ class UviBuilder {
     ;
 
     this.attackInitWithCustomKnob =
-      ''
+      '  attack = Knob("Attack", 0, 0, 4)\n'
+    + '  attack.pos = {<X>, <Y>}\n'
+    + '  attack.size = {<W>, <H>}\n'
+    + '  attack:setStripImage("<KNOB_IMAGE>", <STEP>)\n'
+    + '  attack.mapper = Mapper.Quartic\n'
+    + '  attack.unit = Unit.Seconds\n'
+    + '  attack:setValue(eg:getParameter("AttackTime"))\n'
+    + '  attack.changed = function(self)\n'
+    + '    eg:setParameter("AttackTime", self.value)\n'
+    + '  end\n'
     ;
+
 
     this.decayInit =
       '  decay = Knob("Decay", 0, 0, 4)\n'
@@ -109,8 +132,18 @@ class UviBuilder {
     ;
 
     this.decayInitWithCustomKnob =
-    ''
+    '  decay = Knob("Decay", 0, 0, 4)\n'
+    + '  decay.pos = {<X>, <Y>}\n'
+    + '  decay.size = {<W>, <H>}\n'
+    + '  decay:setStripImage("<KNOB_IMAGE>", <STEP>)\n'
+    + '  decay.mapper = Mapper.Quartic\n'
+    + '  decay.unit = Unit.Seconds\n'
+    + '  decay:setValue(eg:getParameter("DecayTime"))\n'
+    + '  decay.changed = function(self)\n'
+    + '    eg:setParameter("DecayTime", self.value)\n'
+    + '  end\n'
     ;
+
 
     this.sustainInit =
       '  sustain = Knob("Sustain", 1, 0, 1)\n'
@@ -124,13 +157,22 @@ class UviBuilder {
     ;
 
     this.sustainInitWithCustomKnob =
-    ''
+      '  sustain = Knob("Sustain", 1, 0, 1)\n'
+    + '  sustain.pos = {<X>, <Y>}\n'
+    + '  sustain.size = {<W>, <H>}\n'
+    + '  sustain:setStripImage("<KNOB_IMAGE>", <STEP>)\n'
+    + '  sustain.mapper = Mapper.Linear\n'
+    + '  sustain.unit = Unit.PercentNormalized\n'
+    + '  sustain:setValue(eg:getParameter("SustainLevel"))\n'
+    + '  sustain.changed = function(self)\n'
+    + '    eg:setParameter("SustainLevel", self.value)\n'
+    + '  end\n'
     ;
 
     this.releaseInit =
       '  release = Knob("Release", 0.1, 0, 4)\n'
     + '  release.pos = {<X>, <Y>}\n'
-    + '  release.mapper = Mapper.Quartic'
+    + '  release.mapper = Mapper.Quartic\n'
     + '  release.unit = Unit.Seconds\n'
     + '  release:setValue(eg:getParameter("ReleaseTime"))\n'
     + '  release.changed = function(self)\n'
@@ -139,129 +181,153 @@ class UviBuilder {
     ;
 
     this.releaseInitWithCustomKnob =
-    ''
+      '  release = Knob("Release", 0.1, 0, 4)\n'
+    + '  release.pos = {<X>, <Y>}\n'
+    + '  release.size = {<W>, <H>}\n'
+    + '  release:setStripImage("<KNOB_IMAGE>", <STEP>)\n'
+    + '  release.mapper = Mapper.Quartic\n'
+    + '  release.unit = Unit.Seconds\n'
+    + '  release:setValue(eg:getParameter("ReleaseTime"))\n'
+    + '  release.changed = function(self)\n'
+    + '    eg:setParameter("ReleaseTime", self.value)\n'
+    + '  end\n'
     ;
 
 
     // ---------------------
 
-    this.lpfInit =
-      '  { Note: To use Lpf, set Lpf Fx into slot 0 of Instrument Insert Fx. }\n'
-    + '  declare ui_knob $CutOff(0, 1000000, 1)\n'
-    + '  move_control_px($CutOff, <X>, <Y>)\n' 
-    + '  set_knob_unit($CutOff, $KNOB_UNIT_HZ)\n'
-    + '  set_knob_defval($CutOff, 500000)\n'
-    + '  $CutOff := get_engine_par($ENGINE_PAR_CUTOFF, $instrument, 0, $insert)\n'
-    + '  set_knob_label($CutOff, get_engine_par_disp($ENGINE_PAR_CUTOFF, $instrument, 0, $insert))\n'
-    + '\n'
-    + '  declare ui_knob $Reso(0, 1000000, 1)\n'
-    + '  move_control_px($Reso, <X>, <Y>)\n' 
-    + '  set_knob_unit($Reso, $KNOB_UNIT_PERCENT)\n' 
-    + '  set_knob_defval($Reso, 0)\n'
-    + '  $Reso := get_engine_par($ENGINE_PAR_RESONANCE, $instrument, 0, $insert)\n'
-    + '  set_knob_label($Reso, get_engine_par_disp($ENGINE_PAR_RESONANCE, $instrument, 0, $insert))\n';
-
-    this.lpfCallback =
-      'on ui_control ($CutOff)\n'
-    + '  set_engine_par($ENGINE_PAR_CUTOFF, $CutOff, $instrument, 0, $insert)\n'
-    + '  set_knob_label($CutOff, get_engine_par_disp($ENGINE_PAR_CUTOFF, $instrument, 0, $insert))\n'
-    + 'end on\n'
-    + '\n'
-    + 'on ui_control ($Reso)\n'
-    + '  set_engine_par($ENGINE_PAR_RESONANCE, $Reso, $instrument, 0, $insert)\n'
-    + '  set_knob_label($Reso, get_engine_par_disp($ENGINE_PAR_RESONANCE, $instrument, 0, $insert))\n'
-    + 'end on\n';
+    this.lpfInit = 
+      '-- Note: To use Lpf, set Lpf(Lowpass 12, LowPass24, etc.) into FX lane of Program.\n'
+      + 'local lpf\n'
+      + 'local cutoff, resonance\n'
+      + 'for _, module in pairs(Program.inserts) do\n'
+      + '  if module:hasParameter("Freq") then\n'
+      + '    lpf = module\n'
+      + '  end\n'
+      + 'end\n'
+      + 'if lpf then\n'
+      + '  cutoff = Knob("CutOff", 1000, 20, 20000)\n'
+      + '  cutoff.pos = {<X>, <Y>}\n'
+      + '  cutoff.mapper = Mapper.Exponential\n'
+      + '  cutoff.unit = Unit.Hertz\n'
+      + '  cutoff:setValue(lpf:getParameter("Freq"))\n'
+      + '  cutoff.changed = function(self)\n'
+      + '    lpf:setParameter("Freq", self.value)\n'
+      + '  end\n'
+      + '\n'
+      + '  resonance = Knob("Resonance", 0, 0, 1)\n'
+      + '  resonance.pos = {<X>, <Y>}\n'
+      + '  resonance.mapper = Mapper.Linear\n'
+      + '  resonance.unit = Unit.PercentNormalized\n'
+      + '  resonance:setValue(lpf:getParameter("Q"))\n'
+      + '  resonance.changed = function(self)\n'
+      + '    lpf:setParameter("Q", self.value)\n'
+      + '  end\n'
+      + 'end\n'
+      ;
 
     this.lpfInitWithCustomKnob =
-      '  { Note: To use Lpf, set Lpf Fx into slot 0 of Instrument Insert Fx. }\n'
-    + '  declare ui_slider $CutOff(0, 1000000)\n'
-    + '  move_control_px($CutOff, <X>, <Y>)\n'
-    + '  set_control_par_str(get_ui_id($CutOff), $CONTROL_PAR_TEXT, "")\n'
-    + '  set_control_par_str(get_ui_id($CutOff), $CONTROL_PAR_PICTURE, "<KNOB_IMAGE>")\n'
-    + '  set_control_par(get_ui_id($CutOff), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)\n'
-    + '  $CutOff := get_engine_par($ENGINE_PAR_CUTOFF, $instrument, 0, $insert)\n'
-    + '  set_knob_defval($CutOff, 500000)\n'
+    '-- Note: To use Lpf, set Lpf(Lowpass 12, LowPass24, etc.) into FX lane of Program.\n'
+    + 'local lpf\n'
+    + 'local cutoff, resonance\n'
+    + 'for _, module in pairs(Program.inserts) do\n'
+    + '  if module:hasParameter("Freq") then\n'
+    + '    lpf = module\n'
+    + '  end\n'
+    + 'end\n'
+    + 'if lpf then\n'
+    + '  cutoff = Knob("CutOff", 1000, 20, 20000)\n'
+    + '  cutoff.pos = {<X>, <Y>}\n'
+    + '  cutoff.size = {<W>, <H>}\n'
+    + '  cutoff:setStripImage("<KNOB_IMAGE>", <STEP>)\n'
+    + '  cutoff.mapper = Mapper.Exponential\n'
+    + '  cutoff.unit = Unit.Hertz\n'
+    + '  cutoff:setValue(lpf:getParameter("Freq"))\n'
+    + '  cutoff.changed = function(self)\n'
+    + '    lpf:setParameter("Freq", self.value)\n'
+    + '  end\n'
     + '\n'
-    + '  declare ui_slider $Reso(0, 1000000)\n'
-    + '  move_control_px($Reso, <X>, <Y>)\n'
-    + '  set_control_par_str(get_ui_id($Reso), $CONTROL_PAR_TEXT, "")\n'
-    + '  set_control_par_str(get_ui_id($Reso), $CONTROL_PAR_PICTURE, "<KNOB_IMAGE>")\n'
-    + '  set_control_par(get_ui_id($Reso), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)\n'
-    + '  $Reso := get_engine_par($ENGINE_PAR_RESONANCE, $instrument, 0, $insert)\n'
-    + '  set_knob_defval($Reso, 0)\n'
+    + '  resonance = Knob("Resonance", 0, 0, 1)\n'
+    + '  resonance.pos = {<X>, <Y>}\n'
+    + '  resonance.size = {<W>, <H>}\n'
+    + '  resonance:setStripImage("<KNOB_IMAGE>", <STEP>)\n'
+    + '  resonance.mapper = Mapper.Linear\n'
+    + '  resonance.unit = Unit.PercentNormalized\n'
+    + '  resonance:setValue(lpf:getParameter("Q"))\n'
+    + '  resonance.changed = function(self)\n'
+    + '    lpf:setParameter("Q", self.value)\n'
+    + '  end\n'
+    + 'end\n'
     ;
-
-    this.lpfCallbackWithCustomKnob =
-      'on ui_control ($CutOff)\n'
-    + '  set_engine_par($ENGINE_PAR_CUTOFF, $CutOff, $instrument, 0, $insert)\n'
-    + 'end on\n'
-    + '\n'
-    + 'on ui_control ($Reso)\n'
-    + '  set_engine_par($ENGINE_PAR_RESONANCE, $Reso, $instrument, 0, $insert)\n'
-    + 'end on\n';
-
 
     // ---------------------
 
     this.reverbInit =
-      '  declare const $send_slot := 7\n'
-    + '\n'
-    + '  { Note: To use Reverb, set Reverb Fx into slot 0 of Instrument Send Fx. }\n'
-    + '  declare ui_knob $Reverb(0, 1000000, 1)\n'
-    + '  move_control_px($Reverb, <X>, <Y>)\n' 
-    + '  set_knob_unit($Reverb, $KNOB_UNIT_DB)\n' 
-    + '  set_knob_defval($Reverb, 630859) { 630859 = 0dB }\n'
-    + '  $Reverb := get_engine_par($ENGINE_PAR_SENDLEVEL_0, $instrument, $send_slot, $insert)\n'
-    + '  set_knob_label($Reverb, get_engine_par_disp($ENGINE_PAR_SENDLEVEL_0, $instrument, $send_slot, $insert))\n'
-    + '\n'
-    + '  declare ui_knob $Size(0, 1000000, 1)\n'
-    + '  move_control_px($Size, <X>, <Y>)\n' 
-    + '  set_knob_unit($Size, $KNOB_UNIT_PERCENT)\n' 
-    + '  set_knob_defval($Size, 500000)\n'
-    + '  $Size := get_engine_par($ENGINE_PAR_RV2_SIZE, $instrument, 0, $send)\n'
-    + '  set_knob_label($Size, get_engine_par_disp($ENGINE_PAR_RV2_SIZE, $instrument, 0, $send))\n';
+      '  -- Note: To use Reverb, set SparkVerb into FX lane of Program.\n'
+      + 'local rev\n'
+      + 'local reverb, size\n'
+      + 'for _, module in pairs(Program.inserts) do\n'
+      + '  if module:hasParameter("RoomSize") then\n'
+      + '    rev = module\n'
+      + '  end\n'
+      + 'end\n'
+      + 'if rev then\n'
+      + '  reverb = Knob("Reverb", 0.5, 0, 1)\n'
+      + '  reverb.pos = {<X>, <Y>}\n'
+      + '  reverb.mapper = Mapper.Linear\n'
+      + '  reverb.unit = Unit.PercentNormalized\n'
+      + '  reverb:setValue(rev:getParameter("Mix"))\n'
+      + '  reverb.changed = function(self)\n'
+      + '    rev:setParameter("Mix", self.value)\n'
+      + '  end\n'
+      + '\n'
+      + '  size = Knob("Size", 20, 4, 50)\n'
+      + '  size.pos = {<X>, <Y>}\n'
+      + '  size.mapper = Mapper.Quadratic\n'
+      + '  size.displayText = string.format("%.2f", size.value) .. " m"\n'
+      + '  size:setValue(rev:getParameter("RoomSize"))\n'
+      + '  size.changed = function(self)\n'
+      + '    rev:setParameter("RoomSize", self.value)\n'
+      + '    size.displayText = string.format("%.2f", size.value) .. " m"\n'
+      + '  end\n'
+      + 'end\n'
+      ;
 
-    this.reverbCallback =
-      'on ui_control ($Reverb)\n'
-    + '  set_engine_par($ENGINE_PAR_SENDLEVEL_0, $Reverb, $instrument, $send_slot, $insert)\n'
-    + '  set_knob_label($Reverb, get_engine_par_disp($ENGINE_PAR_SENDLEVEL_0, $instrument, $send_slot, $insert))\n'
-    + 'end on\n'
-    + '\n'
-    + 'on ui_control ($Size)\n'
-    + '  set_engine_par($ENGINE_PAR_RV2_SIZE, $Size, $instrument, 0, $send)\n'
-    + '  set_knob_label($Size, get_engine_par_disp($ENGINE_PAR_RV2_SIZE, $instrument, 0, $send))\n'
-    + 'end on\n';
 
     this.reverbInitWithCustomKnob =
-    '  declare const $send_slot := 7\n'
+      '-- Note: To use Reverb, set SparkVerb into FX lane of Program.\n'
+    + 'local rev\n'
+    + 'local reverb, size\n'
+    + 'for _, module in pairs(Program.inserts) do\n'
+    + '  if module:hasParameter("RoomSize") then\n'
+    + '    rev = module\n'
+    + '  end\n'
+    + 'end\n'
+    + 'if rev then\n'
+    + '  reverb = Knob("Reverb", 0.5, 0, 1)\n'
+    + '  reverb.pos = {<X>, <Y>}\n'
+    + '  reverb.size = {<W>, <H>}\n'
+    + '  reverb:setStripImage("<KNOB_IMAGE>", <STEP>)\n'
+    + '  reverb.mapper = Mapper.Linear\n'
+    + '  reverb.unit = Unit.PercentNormalized\n'
+    + '  reverb:setValue(rev:getParameter("Mix"))\n'
+    + '  reverb.changed = function(self)\n'
+    + '    rev:setParameter("Mix", self.value)\n'
+    + '  end\n'
     + '\n'
-    + '  { Note: To use Reverb, set Reverb Fx into slot 0 of Instrument Send Fx. }\n'
-    + '  declare ui_slider $Reverb(0, 1000000)\n'
-    + '  move_control_px($Reverb, <X>, <Y>)\n'
-    + '  set_control_par_str(get_ui_id($Reverb), $CONTROL_PAR_TEXT, "")\n'
-    + '  set_control_par_str(get_ui_id($Reverb), $CONTROL_PAR_PICTURE, "<KNOB_IMAGE>")\n'
-    + '  set_control_par(get_ui_id($Reverb), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)\n'
-    + '  $Reverb := get_engine_par($ENGINE_PAR_CUTOFF, $instrument, $send_slot, $insert)\n'
-    + '  set_knob_defval($Reverb, 630859) { 630859 = 0dB }\n'
-    + '\n'
-    + '  declare ui_slider $Size(0, 1000000)\n'
-    + '  move_control_px($Size, <X>, <Y>)\n'
-    + '  set_control_par_str(get_ui_id($Size), $CONTROL_PAR_TEXT, "")\n'
-    + '  set_control_par_str(get_ui_id($Size), $CONTROL_PAR_PICTURE, "<KNOB_IMAGE>")\n'
-    + '  set_control_par(get_ui_id($Size), $CONTROL_PAR_MOUSE_BEHAVIOUR, -500)\n'
-    + '  $Size := get_engine_par($ENGINE_PAR_RV2_SIZE, $instrument, 0, $send)\n'
-    + '  set_knob_defval($Size, 500000)\n'
+    + '  size = Knob("Size", 20, 4, 50)\n'
+    + '  size.pos = {<X>, <Y>}\n'
+    + '  size.size = {<W>, <H>}\n'
+    + '  size:setStripImage("<KNOB_IMAGE>", <STEP>)\n'
+    + '  size.mapper = Mapper.Quadratic\n'
+    + '  size.displayText = string.format("%.2f", size.value) .. " m"\n'
+    + '  size:setValue(rev:getParameter("RoomSize"))\n'
+    + '  size.changed = function(self)\n'
+    + '    rev:setParameter("RoomSize", self.value)\n'
+    + '    size.displayText = string.format("%.2f", size.value) .. " m"\n'
+    + '  end\n'
+    + 'end\n'
     ;
-
-    this.reverbCallbackWithCustomKnob =
-    'on ui_control ($Reverb)\n'
-    + '  set_engine_par($ENGINE_PAR_SENDLEVEL_0, $Reverb, $instrument, $send_slot, $insert)\n'
-    + 'end on\n'
-    + '\n'
-    + 'on ui_control ($Size)\n'
-    + '  set_engine_par($ENGINE_PAR_RV2_SIZE, $Size, $instrument, 0, $send)\n'
-    + 'end on\n';
-
 
     this.code = this.getCode({init:true}, true);
   }
@@ -280,12 +346,11 @@ class UviBuilder {
       }    
     }
     if (!modifyFlag) {
-      console.log('cache hit');
       return this.code;
     }
 
     let init = this.initHead
-      .replace('<PANEL_IMAGE>', this.params.panel_image.replace(/\..+$/, ''))
+      .replace('<PANEL_IMAGE>', this.params.panel_image)
       .replace('<HEIGHT>', this.params.panel_height)
       .replace('<WIDTH>', this.params.panel_width)
       ;
@@ -324,15 +389,13 @@ class UviBuilder {
 
       if (this.params.lpf) {
         let x100 = Number(this.params.lpf_x) + 100;
-        init += this.lpfInit.replace('<X>', this.params.lpf_x).replace('<Y>', this.params.lpf_y)
-          .replace('<X>', x100).replace('<Y>', this.params.lpf_y)
-          + '\n\n';
+        init += this.lpfInit.replace('<X>', this.params.lpf_x).replace(/<Y>/g, this.params.lpf_y)
+        .replace('<X>', x100) + '\n\n';
       }
       if (this.params.reverb) {
         let x100 = Number(this.params.reverb_x) + 100;
-        init += this.reverbInit.replace('<X>', this.params.reverb_x).replace('<Y>', this.params.reverb_y)
-          .replace('<X>', x100).replace('<Y>', this.params.reverb_y)
-          + '\n\n';
+        init += this.reverbInit.replace('<X>', this.params.reverb_x).replace(/<Y>/g, this.params.reverb_y)
+        .replace('<X>', x100) + '\n\n';
       }
 
     } else {
@@ -341,6 +404,13 @@ class UviBuilder {
       if (this.params.volume) {
         init += this.volumeInitWithCustomKnob
         .replace('<X>', this.params.volume_x).replace('<Y>', this.params.volume_y) + '\n\n';
+      }
+      if ( this.params.attack
+        || this.params.decay
+        || this.params.sustain
+        || this.params.release
+      ) {
+        init += this.egInitHead;
       }
       if (this.params.attack) {
         init += this.attackInitWithCustomKnob
@@ -358,10 +428,17 @@ class UviBuilder {
         init += this.releaseInitWithCustomKnob
         .replace('<X>', this.params.release_x).replace('<Y>', this.params.release_y) + '\n\n';
       }
+      if ( this.params.attack
+        || this.params.decay
+        || this.params.sustain
+        || this.params.release
+      ) {
+        init += this.egInitTail;
+      }
       if (this.params.lpf) {
         let x100 = Number(this.params.lpf_x) + 100;
         init += this.lpfInitWithCustomKnob
-        .replace('<X>', this.params.reverb_x).replace(/<Y>/g, this.params.reverb_y)
+        .replace('<X>', this.params.lpf_x).replace(/<Y>/g, this.params.lpf_y)
         .replace('<X>', x100) + '\n\n';
       }
       if (this.params.reverb) {
@@ -373,6 +450,9 @@ class UviBuilder {
     }
 
     init = init
+    .replace(/<W>/g, this.params.custom_knob_w)
+    .replace(/<H>/g, this.params.custom_knob_h)
+    .replace(/<STEP>/g, this.params.custom_knob_step)
     .replace(/<KNOB_IMAGE>/g, this.params.knob_image);
 
     this.code = init + '\n\n';

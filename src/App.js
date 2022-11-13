@@ -90,6 +90,9 @@ class App extends Component {
   onChange2 = (e) => {
     let key = e.target.id;
     let value = e.target.value;
+    if ((this.state.target === 'uvi') && (key === 'panel_height') && (Number(value) > 480)) {
+      value = String(480);
+    }
     let code = this.cb.getCode({[key]:value});
     this.setState({[key]:value, "code":code});
   }
@@ -197,8 +200,7 @@ class App extends Component {
           <input className={this.state.target==='ds' ? 'ControlText' : 'ControlHide'} type="number" value="812" disabled />
 
           <div className="ControlLabel">Panel Height</div>
-          <input className={this.state.target==='ksp' ? 'ControlText' : 'ControlHide'} type="number" id="panel_height" value={this.state.panel_height} onChange={this.onChange2} />
-          <input className={this.state.target==='uvi' ? 'ControlText' : 'ControlHide'} type="number" value="480" disabled />
+          <input className={this.state.target!=='ds' ? 'ControlText' : 'ControlHide'} type="number" id="panel_height" value={this.state.panel_height} onChange={this.onChange2} />
           <input className={this.state.target==='ds' ? 'ControlText' : 'ControlHide'} type="number" value="375" disabled />
 
           <div className="ControlLabel">Custom Icon</div>

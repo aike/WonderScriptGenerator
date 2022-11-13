@@ -361,7 +361,6 @@ class KspBuilder {
       }    
     }
     if (!modifyFlag) {
-      console.log('cache hit');
       return this.code;
     }
 

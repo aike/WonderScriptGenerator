@@ -243,7 +243,6 @@ class DsBuilder {
       }    
     }
     if (!modifyFlag) {
-      console.log("cache hit");
       return this.code;
     }
 
@@ -278,10 +277,9 @@ class DsBuilder {
       if (this.params.lpf) {
         let x100 = Number(this.params.lpf_x) + 100;
         init += this.lpfInit
-        .replace('<X>', this.params.lpf_x).replace('<Y>', this.params.lpf_y)
-        .replace('<X>', x100).replace('<Y>', this.params.lpf_y)
-        .replace('<POSITION>', position)
-        .replace('<POSITION>', position)
+        .replace('<X>', this.params.lpf_x).replace(/<Y>/g, this.params.lpf_y)
+        .replace('<X>', x100)
+        .replace(/<POSITION>/g, position)
         + '\n';
         effects += this.lpfEffect;
         position++;
@@ -289,10 +287,9 @@ class DsBuilder {
       if (this.params.reverb) {
         let x100 = Number(this.params.reverb_x) + 100;
         init += this.reverbInit
-        .replace('<X>', this.params.reverb_x).replace('<Y>', this.params.reverb_y)
-        .replace('<X>', x100).replace('<Y>', this.params.reverb_y)
-        .replace('<POSITION>', position)
-        .replace('<POSITION>', position)
+        .replace('<X>', this.params.reverb_x).replace(/<Y>/g, this.params.reverb_y)
+        .replace('<X>', x100)
+        .replace(/<POSITION>/g, position)
         + '\n';
         effects += this.reverbEffect;
         position++;
