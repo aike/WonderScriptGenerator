@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+//import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import lua from 'react-syntax-highlighter/dist/esm/languages/prism/lua';
+
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import KspBuilder from './KspBuilder';
 import UviBuilder from './UviBuilder';
 import DsBuilder from './DsBuilder';
+import ksp from './KspSyntax';
 
 class App extends Component {
   constructor() {
@@ -67,6 +72,9 @@ class App extends Component {
     };
 
     this.cb = null;
+
+    SyntaxHighlighter.registerLanguage('ksp', ksp);
+    SyntaxHighlighter.registerLanguage('lua', lua);
   }
 
   componentDidMount() {
@@ -136,7 +144,7 @@ class App extends Component {
     let style = 'xquery';
     switch (this.state.target){
       case 'ksp':
-        style = 'xquery';
+        style = 'ksp';
         break;
       case 'uvi':
         style = 'lua';
