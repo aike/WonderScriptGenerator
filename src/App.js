@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-//import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import lua from 'react-syntax-highlighter/dist/esm/languages/prism/lua';
-
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import lua from 'react-syntax-highlighter/dist/esm/languages/prism/lua';
+import ksp from './KspSyntax';
 
 import KspBuilder from './KspBuilder';
 import UviBuilder from './UviBuilder';
 import DsBuilder from './DsBuilder';
-import ksp from './KspSyntax';
 
 class App extends Component {
   constructor() {
