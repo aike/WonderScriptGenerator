@@ -733,20 +733,23 @@ input[type="text"]{
   right: 40px;
   width: 40px;
   height: 25px;
-  background-color: #BBB;
-  opacity: 60%;
+  background-color: white;
+  opacity: 0%;
   border-radius: 4px;
   cursor : pointer;
 }
 
-#CopyButton:hover {
+.CodeArea:hover #CopyButton {
+  opacity: 60%;
+}
+
+.CodeArea:hover #CopyButton:hover {
   opacity: 100%;
 }
 
 #CopyButton img {
-  margin: 5px 0px 0px 12px;
+  margin: -5px 0px 0px 4px;
 }
-
 
 ::-webkit-scrollbar {
   width: 10px;
