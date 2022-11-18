@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/WonderScriptGenerator/static/css/main.2c71e2a7.css",
-    "main.js": "/WonderScriptGenerator/static/js/main.f7e9dbf4.js",
+    "main.js": "/WonderScriptGenerator/static/js/main.d0c12449.js",
     "static/js/787.e7cf142d.chunk.js": "/WonderScriptGenerator/static/js/787.e7cf142d.chunk.js",
     "index.html": "/WonderScriptGenerator/index.html",
     "main.2c71e2a7.css.map": "/WonderScriptGenerator/static/css/main.2c71e2a7.css.map",
-    "main.f7e9dbf4.js.map": "/WonderScriptGenerator/static/js/main.f7e9dbf4.js.map",
+    "main.d0c12449.js.map": "/WonderScriptGenerator/static/js/main.d0c12449.js.map",
     "787.e7cf142d.chunk.js.map": "/WonderScriptGenerator/static/js/787.e7cf142d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2c71e2a7.css",
-    "static/js/main.f7e9dbf4.js"
+    "static/js/main.d0c12449.js"
   ]
 }
