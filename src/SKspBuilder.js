@@ -143,11 +143,9 @@ class SKspBuilder {
     // ---------------------
 
     this.volumeInit =
-      '  // Note: 500000 = -6dB, 630859 = 0dB\n'
-    + '  addKnob(Volume, <X>, <Y>, 500000, DB, VOLUME, group, slot.NO_SLOT, generic.INSERT_FX)\n';
+      '  addKnob(Volume, <X>, <Y>, 500000, DB, VOLUME, group, slot.NO_SLOT, generic.INSERT_FX) // Note: 500000 = -6dB, 630859 = 0dB\n';
     this.volumeInitWithCustomKnob =
-      '  // Note: 500000 = -6dB, 630859 = 0dB\n'
-    + '  addKnob(Volume, <X>, <Y>, 500000, DB, VOLUME, group, slot.NO_SLOT, generic.INSERT_FX, "<KNOB_IMAGE>")\n';
+      '  addKnob(Volume, <X>, <Y>, 500000, DB, VOLUME, group, slot.NO_SLOT, generic.INSERT_FX, "<KNOB_IMAGE>") // Note: 500000 = -6dB, 630859 = 0dB\n';
     this.volumeCallback =
       'knobCallback(Volume, VOLUME, group, slot.NO_SLOT, generic.INSERT_FX)\n';
 
@@ -175,11 +173,9 @@ class SKspBuilder {
       'knobCallback(Sustain, SUSTAIN, group, slot.SLOT_0, generic.INSERT_FX)\n';
 
     this.releaseInit =
-      '  // Note: 664063 = 1.0sec\n'
-    + '  addKnob(Release, <X>, <Y>, 664063, MS, RELEASE, group, slot.SLOT_0, generic.INSERT_FX)\n'
+      '  addKnob(Release, <X>, <Y>, 664063, MS, RELEASE, group, slot.SLOT_0, generic.INSERT_FX) // Note: 664063 = 1.0sec\n'
     this.releaseInitWithCustomKnob =
-      '  // Note: 664063 = 1.0sec\n'
-    + '  addKnob(Release, <X>, <Y>, 664063, MS, RELEASE, group, slot.SLOT_0, generic.INSERT_FX, "<KNOB_IMAGE>")\n'
+      '  addKnob(Release, <X>, <Y>, 664063, MS, RELEASE, group, slot.SLOT_0, generic.INSERT_FX, "<KNOB_IMAGE>") // Note: 664063 = 1.0sec\n';
     this.releaseCallback =
       'knobCallback(Release, RELEASE, group, slot.SLOT_0, generic.INSERT_FX)\n';
 
