@@ -9,8 +9,9 @@ https://aike.github.io/WonderScriptGenerator/
 
 ## Features
 * Generate general purpose virtual instrument script
-* Three different script languenge
+* The following scripting languages ​​are available:
   * [NI KONTAKT (KSP)](https://www.native-instruments.com/en/products/komplete/samplers/kontakt-7/)
+  * [NI KONTAKT (SublimeKSP)](https://github.com/nojanath/SublimeKSP)
   * [UVI Falcon (UVI Script)](https://www.uvi.net/instruments/falcon.html)
   * [Decent Sampler (dspreset)](https://www.decentsamples.com/product/decent-sampler-plugin/)
 * Volume, Envelope Generator, LPF and Reverb Knobs

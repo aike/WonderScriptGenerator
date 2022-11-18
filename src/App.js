@@ -5,8 +5,10 @@ import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import lua from 'react-syntax-highlighter/dist/esm/languages/prism/lua';
 import ksp from './KspSyntax';
+import sksp from './SKspSyntax';
 
 import KspBuilder from './KspBuilder';
+import SKspBuilder from './SKspBuilder';
 import UviBuilder from './UviBuilder';
 import DsBuilder from './DsBuilder';
 
@@ -72,11 +74,13 @@ class App extends Component {
     this.cb = null;
 
     SyntaxHighlighter.registerLanguage('ksp', ksp);
+    SyntaxHighlighter.registerLanguage('sksp', sksp);
     SyntaxHighlighter.registerLanguage('lua', lua);
   }
 
   componentDidMount() {
     this.kspBuilder = new KspBuilder();
+    this.skspBuilder = new SKspBuilder();
     this.uviBuilder = new UviBuilder(); 
     this.DsBuilder = new DsBuilder();
     this.cb = this.kspBuilder;
@@ -111,6 +115,8 @@ class App extends Component {
     if (key === 'target') {
       if (value === 'ksp') {
         this.cb = this.kspBuilder;
+      } else if (value === 'sksp') {
+        this.cb = this.skspBuilder;
       } else if (value === 'uvi') {
         this.cb = this.uviBuilder;
       } else if (value === 'ds') {
@@ -139,10 +145,13 @@ class App extends Component {
   }
 
   getHighLightStyle = () => {
-    let style = 'xquery';
+    let style = 'ksp';
     switch (this.state.target){
       case 'ksp':
         style = 'ksp';
+        break;
+      case 'sksp':
+        style = 'sksp';
         break;
       case 'uvi':
         style = 'lua';
@@ -151,7 +160,7 @@ class App extends Component {
         style = 'xml';
         break;
       default:
-        style = 'xquery';
+        style = 'ksp';
     }
     return style;
   } 
@@ -168,14 +177,15 @@ class App extends Component {
         <div className="frame">
           <h1 className="h1_65 margin_plus">Target</h1>
           <div className="ControlVRadio"><input type="radio" className="Radio" name="target" id="r1_1" value="ksp" checked={this.state.target==="ksp"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r1_1">KONTAKT (KSP)</label><div className="RadioMark"></div></div>
-          <div className="ControlVRadio"><input type="radio" className="Radio" name="target" id="r1_2" value="uvi" checked={this.state.target==="uvi"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r1_2">Falcon (UVI Script)</label><div className="RadioMark"></div></div>
-          <div className="ControlVRadio"><input type="radio" className="Radio" name="target" id="r1_3" value="ds"  checked={this.state.target==="ds"}  onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r1_3">Decent Sampler (dspreset)</label><div className="RadioMark"></div></div>
+          <div className="ControlVRadio"><input type="radio" className="Radio" name="target" id="r1_2" value="sksp" checked={this.state.target==="sksp"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r1_2">KONTAKT (SublimeKSP)</label><div className="RadioMark"></div></div>
+          <div className="ControlVRadio"><input type="radio" className="Radio" name="target" id="r1_3" value="uvi" checked={this.state.target==="uvi"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r1_3">Falcon (UVI Script)</label><div className="RadioMark"></div></div>
+          <div className="ControlVRadio"><input type="radio" className="Radio" name="target" id="r1_4" value="ds"  checked={this.state.target==="ds"}  onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r1_4">Decent Sampler (dspreset)</label><div className="RadioMark"></div></div>
         </div>
 
         <div className="frame">
           <h1 className="h1_80">General</h1>
           <div className="ControlLabel">Script Title</div>
-          <input className="ControlText" type="text" id="script_title" value={this.state.script_title} onChange={this.onChange2} disabled={this.state.target!=='ksp'}/>
+          <input className="ControlText" type="text" id="script_title" value={this.state.script_title} onChange={this.onChange2} disabled={this.state.target!=='ksp' || this.state.target!=='sksp'}/>
 
           <div className="ControlLabelRadio">Knob Type</div>
           <div className="ControlRadio"><input type="radio" className="Radio" name="knob_type" id="r2_1" value="default" checked={this.state.knob_type==="default"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r2_1">Default</label><div className="RadioMark"></div></div>
@@ -199,9 +209,9 @@ class App extends Component {
           <input className="ControlText" type="text" id="panel_image" value={this.state.panel_image} onChange={this.onChange2} />
 
           <div className="ControlLabelRadio">Panel Width</div>
-          <div className={this.state.target==='ksp' ? 'ControlRadio3' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_1" value="633" checked={this.state.panel_width==="633"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_1">633</label><div className="RadioMark"></div></div>
-          <div className={this.state.target==='ksp' ? 'ControlRadio3' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_2" value="770" checked={this.state.panel_width==="770"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_2">770</label><div className="RadioMark"></div></div>
-          <div className={this.state.target==='ksp' ? 'ControlRadio3' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_3" value="970" checked={this.state.panel_width==="970"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_3">970</label><div className="RadioMark"></div></div>
+          <div className={this.state.target==='ksp' || this.state.target==='sksp' ? 'ControlRadio3' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_1" value="633" checked={this.state.panel_width==="633"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_1">633</label><div className="RadioMark"></div></div>
+          <div className={this.state.target==='ksp' || this.state.target==='sksp' ? 'ControlRadio3' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_2" value="770" checked={this.state.panel_width==="770"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_2">770</label><div className="RadioMark"></div></div>
+          <div className={this.state.target==='ksp' || this.state.target==='sksp' ? 'ControlRadio3' : 'ControlHide'}><input type="radio" className="Radio" name="panel_width" id="r3_3" value="970" checked={this.state.panel_width==="970"} onChange={this.onChange3} /><label className="RadioLabel" htmlFor="r3_3">970</label><div className="RadioMark"></div></div>
           <input className={this.state.target==='uvi' ? 'ControlText' : 'ControlHide'} type="number" value="720" disabled />
           <input className={this.state.target==='ds' ? 'ControlText' : 'ControlHide'} type="number" value="812" disabled />
 
@@ -210,10 +220,10 @@ class App extends Component {
           <input className={this.state.target==='ds' ? 'ControlText' : 'ControlHide'} type="number" value="375" disabled />
 
           <div className="ControlLabel">Custom Icon</div>
-          <div className="ControlCheckSimple"><input type="checkbox" className="Check" id="icon" checked={this.state.icon} onChange={this.onChange} disabled={this.state.target!=='ksp'}/>
+          <div className="ControlCheckSimple"><input type="checkbox" className="Check" id="icon" checked={this.state.icon} onChange={this.onChange} disabled={this.state.target==='uvi' || this.state.target==='ds'}/>
           <label className="CheckLabel" htmlFor="icon" /><div className="CheckMark"/></div>
           <div className="ControlLabel">Icon Image File</div>
-          <input className="ControlText" type="text" id="icon_image" value={this.state.icon_image} onChange={this.onChange2} disabled={this.state.target!=='ksp' || !this.state.icon} />
+          <input className="ControlText" type="text" id="icon_image" value={this.state.icon_image} onChange={this.onChange2} disabled={this.state.target==='uvi' || this.state.target==='ds' || !this.state.icon} />
         </div>
 
         <div className="frame">

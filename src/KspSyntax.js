@@ -9,7 +9,7 @@ function ksp(Prism) {
       pattern: /{.*}/,
       greedy: false
    },
-   variable: {
+   builtin: {
      pattern: /\$[A-Z0-9_]+\b/,
      greedy: true
    },

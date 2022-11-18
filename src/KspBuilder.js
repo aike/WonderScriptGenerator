@@ -472,10 +472,9 @@ class KspBuilder {
         .replace('<X>', x100) + '\n\n';
         callbacks += this.reverbCallbackWithCustomKnob + '\n\n';
       }
+      init = init
+      .replace(/<KNOB_IMAGE>/g, knob_image);
     }
-
-    init = init
-    .replace(/<KNOB_IMAGE>/g, this.params.knob_image);
 
     init += '\n\n' + this.initTail;
 
