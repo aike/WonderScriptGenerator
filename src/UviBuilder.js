@@ -400,7 +400,6 @@ class UviBuilder {
 
     } else {
       // custom knob
-      let knob_image = this.params.knob_image.replace(/\..+$/, '');
       if (this.params.volume) {
         init += this.volumeInitWithCustomKnob
         .replace('<X>', this.params.volume_x).replace('<Y>', this.params.volume_y) + '\n\n';

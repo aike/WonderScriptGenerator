@@ -318,7 +318,7 @@ class App extends Component {
         <SyntaxHighlighter language={this.getHighLightStyle()} style={a11yDark} customStyle={this.codecss} onClick={this.onClickCode} >
           {this.state.code}
         </SyntaxHighlighter>
-        <div id="CopyButton" onClick={this.onClickCopy}><img src="copy.png" /></div>
+        <div id="CopyButton" onClick={this.onClickCopy}><img src="copy.png" alt="Copy" /></div>
       </div>
       </div>
     </div>

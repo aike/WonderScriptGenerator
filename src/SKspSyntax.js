@@ -1,5 +1,3 @@
-'use strict'
-
 module.exports = sksp
 sksp.displayName = 'sksp'
 sksp.aliases = []

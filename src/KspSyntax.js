@@ -1,5 +1,3 @@
-'use strict'
-
 module.exports = ksp
 ksp.displayName = 'ksp'
 ksp.aliases = []
